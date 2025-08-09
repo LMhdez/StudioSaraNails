@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "sass": "^1.90.0",
-    "tailwindcss": "^4.1.11"
-  }
-}
