@@ -1,0 +1,12 @@
+
+:root {
+	--ease-custom: cubic-bezier(0.4, 0, 0.2, 1);
+	--duration-fast: 200ms;
+	--duration-medium: 300ms;
+}
+
+#mobile-menu {
+	will-change: max-height, opacity, transform;
+	transition-timing-function: var(--ease-custom);
+	transition-duration: var(--duration-medium);
+}

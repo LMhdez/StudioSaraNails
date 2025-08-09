@@ -1,0 +1,9 @@
+{
+	"nav": {
+		"home": "Inicio",
+		"services": "Servicios",
+		"schedule": "Agenda",
+		"contact": "Contacto",
+		"language": "Idioma"
+	}
+}
