@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import "../styles/Home.css";
 import Flower from "../assets/flower.png";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
 	const { t } = useTranslation();
 	const title = t("home.title");
+	const navigate = useNavigate();
 
 	const words = title.split(" ");
 	const lastWord = words.pop();
@@ -33,7 +34,7 @@ export default function Home() {
 	const handleTouchEnd = () => {
 		if (swipeActive) {
 			// Acción del botón aquí, por ejemplo alert o llamar función
-			Navigate("/schedule");
+			navigate("/schedule");
 		}
 		setTimeout(() => setSwipeActive(false), 800);
 		setStartX(null);
@@ -72,6 +73,7 @@ export default function Home() {
 						onTouchStart={handleTouchStart}
 						onTouchMove={handleTouchMove}
 						onTouchEnd={handleTouchEnd}
+						onClick={() => navigate("/schedule")}
 					>
 						<div className="btn-bg-container">
 							<div className="btn-bg-fill"></div>
