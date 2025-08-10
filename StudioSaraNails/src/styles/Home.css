@@ -28,7 +28,7 @@
 
 .btn-book-now {
   @apply
-    font-sans flex justify-center gap-2 items-center mx-auto
+    flex justify-center gap-2 items-center mx-auto
     text-lg text-gray-50 
     backdrop-blur-md lg:font-semibold isolation-auto border-2 
     relative z-10 px-4 py-2 overflow-hidden rounded-full 
@@ -36,6 +36,7 @@
   position: relative;
     background-color: var(--color-hover);
     border-color: var(--color-hover);
+    cursor: pointer;
 
 }
 
