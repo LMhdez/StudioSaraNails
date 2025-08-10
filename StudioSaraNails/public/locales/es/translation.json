@@ -3,5 +3,22 @@
 		"services": "Servicios",
 		"schedule": "Agenda",
 		"contact": "Contacto"
+	},
+
+	"home":{
+		"title": "Reserva tu cita fácilmente",
+		"buttonText": "Reservar ahora",
+		"services": "Servicios",
+		"appointments": "Citas",
+		"clients": "Clientes",
+		"SeeMore": "Ver más"
+	},
+
+	"services":{
+		"softGel": "Soft gel",
+		"acrylicSystem": "Uñas acrílicas",
+		"rubberBaseLeveling": "Nivelación de rubber base",
+		"kapping": "Kapping"
 	}
+
 }

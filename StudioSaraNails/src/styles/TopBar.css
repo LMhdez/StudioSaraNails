@@ -12,12 +12,12 @@
 .topbar-nav {
 	background-color: var(--color-bg-main);
 	color: white;
-	@apply shadow-md;
+	@apply shadow-md ;
 }
 
 /* Contenedor principal */
 .topbar-nav .container {
-	@apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+	@apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4;
 }
 
 /* Contenido flex */
@@ -27,12 +27,12 @@
 
 /* Logo */
 .topbar-nav .logo-link {
-	@apply text-2xl font-bold flex-shrink-0;
+	@apply text-2xl font-bold flex-shrink-0 ;
 	color: var(--color-accent);
 }
 
 .topbar-nav .logo-link img {
-	@apply h-12 w-auto;
+	@apply h-24 w-auto ;
 }
 
 /* Menú escritorio */
@@ -41,7 +41,7 @@
 }
 
 .topbar-nav .desktop-menu a {
-	@apply text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ease-in-out;
+	@apply text-white px-3 py-2 rounded-md text-xl font-medium transition-colors duration-300 ease-in-out;
 	color: white;
 }
 

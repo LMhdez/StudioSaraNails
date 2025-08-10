@@ -4,5 +4,25 @@
 		"schedule": "Schedule",
 		"contact": "Contact"
 		
+	},
+
+	"home":{
+		"title": "Book your appointment effortlessly",
+		"buttonText": "Book Now",
+		"services": "Services",
+		"appointments": "Appointments",
+		"clients": "Clients",
+		"SeeMore": "See More"
+	},
+
+	"services":{
+		"softGel": "Soft Gel",
+		"acrylicSystem": "Acrylic System",
+		"rubberBaseLeveling": "Rubber Base Leveling",
+		"kapping": "Kapping"
 	}
+
+	
+
+	
 }

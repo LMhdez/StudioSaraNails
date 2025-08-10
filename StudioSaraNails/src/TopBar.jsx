@@ -34,6 +34,7 @@ export default function TopBar() {
 						<a href="/">
 							<img src={logo} alt="Logo Saranails" />
 						</a>
+						<h1 className="hidden">Studio Sara Nails</h1>
 					</div>
 
 					{/* Desktop menu */}

@@ -1,20 +1,16 @@
-import { useState } from 'react'
-import TopBar from './TopBar.jsx'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Schedule from "./pages/Schedule";
 
 function App() {
-
-
-  return (
-    <>
-      <div>
-        <TopBar></TopBar>
-        <img src="https://zbcinljpwlqaiskgcres.supabase.co/storage/v1/object/public/images/nails/bluenailsSara.jpg" alt="" srcset="" />
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	return (
+		<Router>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/schedule" element={<Schedule />} />
+			</Routes>
+		</Router>
+	);
 }
 
-export default App
+export default App;

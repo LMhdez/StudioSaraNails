@@ -1,0 +1,109 @@
+@reference "../index.css";
+
+.home-title-div {
+	@apply pb-4 text-center flex flex-col items-center justify-center gap-8 pt-10 sm:pt-20;
+}
+
+.home-title-div h2 {
+	@apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
+}
+
+.home-title-div h2 > .last-word {
+	color: var(--color-accent);
+}
+
+.flowers-container {
+	@apply flex items-center justify-between w-full px-8 sm:px-20 md:px-40;
+}
+
+.flowers-container :first-child {
+	@apply w-16 h-auto rotate-45;
+}
+
+.flowers-container :last-child {
+	@apply w-16 h-auto -rotate-45;
+}
+
+.btn-book-now {
+	@apply cursor-pointer relative bg-white/10 py-2 rounded-full max-w-full flex items-center justify-start
+         shadow-[inset_1px_2px_5px_#00000080] transition-all duration-700 ease-[cubic-bezier(0.51,0.026,0.368,1.016)];
+	min-width: 6rem;
+	min-height: 2.5rem;
+}
+
+@media (min-width: 640px) {
+	.btn-book-now {
+		min-width: 8.5rem;
+		min-height: 2.92rem;
+	}
+}
+
+.btn-book-now:hover {
+	background-color: var(--color-accent);
+}
+
+/* Container da background */
+.btn-bg-container {
+	@apply absolute flex px-1 py-0.5 justify-start items-center inset-0;
+}
+
+/* Fundo que cresce */
+.btn-bg-fill {
+	@apply rounded-full transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)];
+	width: 0%;
+	background-color: var(--color-accent);
+}
+
+/* Quando hover no botão, aumenta a largura do fill */
+.btn-book-now:hover .btn-bg-fill {
+	width: 100%;
+}
+
+/* Ícone do botão */
+.btn-icon {
+	@apply rounded-full shrink-0 flex justify-center items-center shadow-[inset_1px_-1px_3px_0_black] h-full aspect-square transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)];
+	background-color: var(--color-accent);
+}
+
+.btn-book-now:hover .btn-icon {
+	background-color: black;
+}
+
+/* SVG do ícone */
+.btn-icon-svg {
+	@apply text-black transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] p-2;
+	font-size: 0.8rem;
+	transform-origin: center;
+	transition-property: color, transform;
+	transition-duration: 1s;
+	transition-timing-function: cubic-bezier(0.51, 0.026, 0.368, 1.016);
+}
+
+/* Rotaciona no hover */
+.btn-book-now:hover .btn-icon-svg {
+	transform: rotate(-45deg);
+	color: var(--color-accent);
+}
+
+/* Texto do botão */
+.btn-text {
+  @apply pl-10 pr-10 text-black mx-4 transition-all duration-1000 ease-[cubic-bezier(0.51,0.026,0.368,1.016)];
+}
+
+.custom-shape-divider-bottom-1754796570 {
+  @apply absolute bottom-0 left-0 w-full overflow-hidden rotate-180;
+  line-height: 0;
+  
+}
+
+.custom-shape-divider-bottom-1754796570 svg {
+  @apply relative block;
+  width: calc(300% + 1.3px);
+  height: 302px;
+}
+
+.custom-shape-divider-bottom-1754796570 .shape-fill {
+  fill: var(--color-hover);
+}
+
+
