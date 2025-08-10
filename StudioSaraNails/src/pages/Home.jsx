@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import "../styles/Home.css";
 import Flower from "../assets/flower.png";
+import { Navigate } from "react-router-dom";
 
 export default function Home() {
 	const { t } = useTranslation();
@@ -32,7 +33,7 @@ export default function Home() {
 	const handleTouchEnd = () => {
 		if (swipeActive) {
 			// Acción del botón aquí, por ejemplo alert o llamar función
-			alert("Botón activado por swipe!");
+			Navigate("/schedule");
 		}
 		setTimeout(() => setSwipeActive(false), 800);
 		setStartX(null);
