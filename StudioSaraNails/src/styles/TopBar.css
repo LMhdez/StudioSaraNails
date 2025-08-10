@@ -1,0 +1,97 @@
+
+@reference "../index.css";
+
+
+/* Transitions para mobile menu */
+#mobile-menu {
+	will-change: max-height, opacity, transform;
+	transition-timing-function: var(--ease-custom);
+	transition-duration: var(--duration-medium);
+}
+
+.topbar-nav {
+	background-color: var(--color-bg-main);
+	color: white;
+	@apply shadow-md;
+}
+
+/* Contenedor principal */
+.topbar-nav .container {
+	@apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Contenido flex */
+.topbar-nav .content {
+	@apply flex justify-between h-16 items-center;
+}
+
+/* Logo */
+.topbar-nav .logo-link {
+	@apply text-2xl font-bold flex-shrink-0;
+	color: var(--color-accent);
+}
+
+.topbar-nav .logo-link img {
+	@apply h-12 w-auto;
+}
+
+/* Menú escritorio */
+.topbar-nav .desktop-menu {
+	@apply hidden md:flex items-center space-x-8;
+}
+
+.topbar-nav .desktop-menu a {
+	@apply text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ease-in-out;
+	color: white;
+}
+
+.topbar-nav .desktop-menu a:hover {
+	color: var(--color-accent);
+}
+
+/* Botón menú móvil */
+.topbar-nav .mobile-menu-button {
+	@apply md:hidden inline-flex items-center justify-center p-2 rounded-md transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-inset;
+	color: var(--color-accent);
+}
+
+.topbar-nav .mobile-menu-button:hover {
+	color: white;
+	background-color: var(--color-hover);
+}
+
+.topbar-nav .mobile-menu-button:focus {
+	@apply ring;
+	--tw-ring-color: var(--color-accent);
+}
+
+.topbar-nav .mobile-menu-button svg {
+	@apply block h-6 w-6 transform transition-transform duration-300 ease-in-out;
+}
+
+/* Menú móvil */
+.topbar-nav .mobile-menu {
+	@apply md:hidden overflow-visible transform transition-all duration-300 ease-in-out;
+	background-color: var(--color-bg-main);
+}
+
+.topbar-nav .mobile-menu.open {
+	@apply max-h-96 opacity-100 translate-y-3 pointer-events-auto;
+}
+
+.topbar-nav .mobile-menu.closed {
+	@apply max-h-0 opacity-0 -translate-y-2 pointer-events-none;
+}
+
+/* Links menú móvil */
+.topbar-nav .mobile-menu .menu-links {
+	@apply px-2 pt-2 pb-3 space-y-1 sm:px-3;
+}
+
+.topbar-nav .mobile-menu .menu-links a {
+	@apply block text-white px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out;
+}
+
+.topbar-nav .mobile-menu .menu-links a:hover {
+	color: var(--color-accent);
+}

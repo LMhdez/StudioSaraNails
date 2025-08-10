@@ -1,0 +1,29 @@
+@reference "../index.css";
+
+.language-selector {
+	@apply relative inline-block text-left w-24 sm:w-auto;
+}
+
+.language-selector-btn {
+	@apply w-full sm:w-auto rounded px-3 py-2 text-sm flex items-center justify-between space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-1 transition;
+	background-color: var(--color-hover);
+	color: white;
+	--tw-ring-color: var(--color-accent);
+}
+
+.language-selector-icon {
+	@apply w-4 h-4 transform transition-transform duration-300;
+}
+
+.language-selector-menu {
+	@apply absolute right-0 mt-2 w-full sm:w-24 rounded shadow-lg focus:outline-none z-20;
+	background-color: var(--color-hover);
+}
+
+.language-selector-item {
+	@apply block px-4 py-3 text-white text-base sm:text-sm cursor-pointer transition-colors;
+}
+
+.language-selector-item:hover {
+	background-color: var(--color-accent);
+}

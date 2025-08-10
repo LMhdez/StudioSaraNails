@@ -1,13 +1,18 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import "./styles/LanguageSelector.css";
 
 export default function LanguageSelector({ currentLang, onChange }) {
 	const [open, setOpen] = useState(false);
 	const dropdownRef = useRef();
+	const { i18n } = useTranslation();
 
-	const languages = [
-		{ code: "es", label: "ES" },
-		{ code: "en", label: "EN" },
-	];
+	const languages = (i18n.options.supportedLngs || [])
+		.filter((lng) => lng && lng !== "cimode" && lng !== currentLang)
+		.map((lng) => ({
+			code: lng,
+			label: lng.toUpperCase(),
+		}));
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -29,19 +34,16 @@ export default function LanguageSelector({ currentLang, onChange }) {
 	};
 
 	return (
-		<div
-			className="relative inline-block text-left w-24 sm:w-auto"
-			ref={dropdownRef}
-		>
+		<div className="language-selector" ref={dropdownRef}>
 			<button
 				onClick={() => setOpen(!open)}
-				className="w-full sm:w-auto bg-[#4c114b] text-white rounded px-3 py-2 text-sm flex items-center justify-between space-x-2 focus:outline-none focus:ring-2 focus:ring-[#a688a5] focus:ring-offset-1 transition"
+				className="language-selector-btn"
 				aria-haspopup="true"
 				aria-expanded={open}
 			>
 				<span>{currentLang.toUpperCase()}</span>
 				<svg
-					className={`w-4 h-4 transform transition-transform duration-300 ${
+					className={`language-selector-icon ${
 						open ? "rotate-180" : "rotate-0"
 					}`}
 					fill="none"
@@ -58,20 +60,28 @@ export default function LanguageSelector({ currentLang, onChange }) {
 			</button>
 
 			{open && (
-				<ul
-					className="absolute right-0 mt-2 w-full sm:w-24 bg-[#4c114b] rounded shadow-lg ring-1 ring-black ring-opacity-30 focus:outline-none z-20"
-					role="menu"
-				>
-					{languages.map(({ code, label }) => (
+				<ul className="language-selector-menu" role="menu">
+					{languages.length === 0 ? (
 						<li
-							key={code}
-							onClick={() => handleSelect(code)}
-							className="block px-4 py-3 text-white text-base sm:text-sm hover:bg-[#a688a5] cursor-pointer transition-colors"
+							className="language-selector-item"
 							role="menuitem"
+							aria-disabled="true"
+							style={{ opacity: 0.5, cursor: "default" }}
 						>
-							{label}
+							Nenhuma outra língua disponível
 						</li>
-					))}
+					) : (
+						languages.map(({ code, label }) => (
+							<li
+								key={code}
+								onClick={() => handleSelect(code)}
+								className="language-selector-item"
+								role="menuitem"
+							>
+								{label}
+							</li>
+						))
+					)}
 				</ul>
 			)}
 		</div>

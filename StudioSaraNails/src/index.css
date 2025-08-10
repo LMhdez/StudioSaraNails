@@ -1,13 +1,23 @@
 @import "tailwindcss";
 
-
-
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  
+	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	--color-bg-main: #260926;
+	--color-accent: #a688a5;
+	--color-hover: #4c114b;
+
+	--ease-custom: cubic-bezier(0.4, 0, 0.2, 1);
+	--duration-fast: 200ms;
+	--duration-medium: 300ms;
+	
+
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 2rem;
 }
