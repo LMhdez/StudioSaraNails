@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import "../styles/Home.css";
 import Flower from "../assets/flower.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
 	const { t, i18n } = useTranslation();
@@ -12,6 +13,21 @@ export default function Home() {
 	const words = title.split(" ");
 	const lastWord = words.pop();
 	const rest = words.join(" ");
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		// Bloquear scroll al montar
+		document.body.style.overflow = "hidden";
+		document.documentElement.style.overflow = "hidden";
+
+		// Desbloquear scroll al desmontar
+		return () => {
+			document.body.style.overflow = "";
+			document.documentElement.style.overflow = "";
+		};
+	}, []);
+
 	return (
 		<>
 			<TopBar></TopBar>
@@ -25,27 +41,15 @@ export default function Home() {
 						{rest} <span className="last-word">{lastWord}</span>
 					</h2>
 
-					<button type="button" className="btn-book-now">
-						<div className="btn-bg-container">
-							<div className="btn-bg-fill"></div>
-							<div className="btn-icon">
-								<div className="btn-icon-svg">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 16 16"
-										height="100%"
-										width="100%"
-									>
-										<path
-											fill="currentColor"
-											d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"
-										></path>
-									</svg>
-								</div>
-							</div>
-						</div>
-						<div className="btn-text">{t("home.buttonText")}</div>
+					<button class="btn-book-now" type="button" onClick={() => navigate("/schedule")}>
+						{t("home.buttonText")}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 16 19"
+							class="btn-icon"
+						>
+							<path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path>
+						</svg>
 					</button>
 
 					<div class="custom-shape-divider-bottom-1754796570">
