@@ -25,18 +25,16 @@ export default function Home() {
 	const handleTouchMove = (e) => {
 		if (startX === null) return;
 		const deltaX = e.touches[0].clientX - startX;
-		if (deltaX > 50) {
-			// umbral swipe
+		if (deltaX > 50 && !swipeActive) {
 			setSwipeActive(true);
 		}
 	};
 
 	const handleTouchEnd = () => {
 		if (swipeActive) {
-			// Acción del botón aquí, por ejemplo alert o llamar función
 			navigate("/schedule");
 		}
-		setTimeout(() => setSwipeActive(false), 800);
+		setSwipeActive(false);
 		setStartX(null);
 	};
 
