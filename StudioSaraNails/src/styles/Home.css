@@ -87,23 +87,36 @@
 
 /* Texto do botão */
 .btn-text {
-  @apply pl-10 pr-10 text-black mx-4 transition-all duration-1000 ease-[cubic-bezier(0.51,0.026,0.368,1.016)];
+	@apply pl-10 pr-10 text-black mx-4 transition-all duration-1000 ease-[cubic-bezier(0.51,0.026,0.368,1.016)];
+}
+.btn-book-now.active {
+	background-color: var(--color-accent);
+}
+
+.btn-book-now.active .btn-bg-fill {
+	width: 100%;
+}
+
+.btn-book-now.active .btn-icon {
+	background-color: black;
+}
+
+.btn-book-now.active .btn-icon-svg {
+	transform: rotate(-45deg);
+	color: var(--color-accent);
 }
 
 .custom-shape-divider-bottom-1754796570 {
-  @apply absolute bottom-0 left-0 w-full overflow-hidden rotate-180;
-  line-height: 0;
-  
+	@apply absolute bottom-0 left-0 w-full overflow-hidden rotate-180;
+	line-height: 0;
 }
 
 .custom-shape-divider-bottom-1754796570 svg {
-  @apply relative block;
-  width: calc(300% + 1.3px);
-  height: 302px;
+	@apply relative block;
+	width: calc(300% + 1.3px);
+	height: 302px;
 }
 
 .custom-shape-divider-bottom-1754796570 .shape-fill {
-  fill: var(--color-hover);
+	fill: var(--color-hover);
 }
-
-
