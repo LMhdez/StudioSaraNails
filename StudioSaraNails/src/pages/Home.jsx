@@ -15,28 +15,6 @@ export default function Home() {
 	const lastWord = words.pop();
 	const rest = words.join(" ");
 
-	const [swipeActive, setSwipeActive] = useState(false);
-	const [startX, setStartX] = useState(null);
-
-	const handleTouchStart = (e) => {
-		setStartX(e.touches[0].clientX);
-	};
-
-	const handleTouchMove = (e) => {
-		if (startX === null) return;
-		const deltaX = e.touches[0].clientX - startX;
-		if (deltaX > 50 && !swipeActive) {
-			setSwipeActive(true);
-		}
-	};
-
-	const handleTouchEnd = () => {
-		if (swipeActive) {
-			navigate("/schedule");
-		}
-		setSwipeActive(false);
-		setStartX(null);
-	};
 
 	useEffect(() => {
 		// Bloquear scroll al montar
@@ -63,36 +41,17 @@ export default function Home() {
 						{rest} <span className="last-word">{lastWord}</span>
 					</h2>
 
-					<button
-						type="button"
-						className={`btn-book-now ${
-							swipeActive ? "active" : ""
-						}`}
-						onTouchStart={handleTouchStart}
-						onTouchMove={handleTouchMove}
-						onTouchEnd={handleTouchEnd}
-						onClick={() => navigate("/schedule")}
-					>
-						<div className="btn-bg-container">
-							<div className="btn-bg-fill"></div>
-							<div className="btn-icon">
-								<div className="btn-icon-svg">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 16 16"
-										height="100%"
-										width="100%"
-									>
-										<path
-											fill="currentColor"
-											d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"
-										></path>
-									</svg>
-								</div>
-							</div>
-						</div>
-						<div className="btn-text">{t("home.buttonText")}</div>
+
+					<button class="btn-book-now" type="button" onClick={() => navigate("/schedule")}>
+						{t("home.buttonText")}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 16 19"
+							class="btn-icon"
+						>
+							<path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path>
+						</svg>
+
 					</button>
 
 					<div className="custom-shape-divider-bottom-1754796570">

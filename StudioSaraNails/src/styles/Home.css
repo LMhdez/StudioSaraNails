@@ -24,87 +24,68 @@
 	@apply w-16 h-auto -rotate-45;
 }
 
+
+
 .btn-book-now {
-	@apply cursor-pointer relative bg-white/10 py-2 rounded-full max-w-full flex items-center justify-start
-         shadow-[inset_1px_2px_5px_#00000080] transition-all duration-700 ease-[cubic-bezier(0.51,0.026,0.368,1.016)];
-	min-width: 6rem;
-	min-height: 2.5rem;
+  @apply
+    flex justify-center gap-2 items-center mx-auto
+    text-lg text-gray-50 
+    backdrop-blur-md lg:font-semibold isolation-auto border-2 
+    relative z-10 px-4 py-2 overflow-hidden rounded-full 
+    ;
+  position: relative;
+    background-color: var(--color-hover);
+    border-color: var(--color-hover);
+    cursor: pointer;
+
 }
 
-@media (min-width: 640px) {
-	.btn-book-now {
-		min-width: 8.5rem;
-		min-height: 2.92rem;
-	}
+.btn-book-now::before {
+  content: "";
+  @apply
+    absolute w-full transition-all duration-700 rounded-full
+    bg-white aspect-square -z-10;
+  left: -100%;
+  top: 50%;
+  transform: translateY(-50%);
+  scale: 1;
+  transition-property: left, scale;
+  transition-duration: 0.7s, 0.5s;
+  transition-timing-function: ease;
 }
 
 .btn-book-now:hover {
-	background-color: var(--color-accent);
+  color:  var(--color-hover);
+  border-color: var(--color-hover);
 }
 
-/* Container da background */
-.btn-bg-container {
-	@apply absolute flex px-1 py-0.5 justify-start items-center inset-0;
-}
-
-/* Fundo que cresce */
-.btn-bg-fill {
-	@apply rounded-full transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)];
-	width: 0%;
-	background-color: var(--color-accent);
-}
-
-/* Quando hover no botão, aumenta a largura do fill */
-.btn-book-now:hover .btn-bg-fill {
-	width: 100%;
-}
-
-/* Ícone do botão */
-.btn-icon {
-	@apply rounded-full shrink-0 flex justify-center items-center  h-full aspect-square transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)];
-	background-color: var(--color-accent);
+.btn-book-now:hover::before {
+  left: 0;
+  scale: 2;
+  transition-duration: 0.7s, 0.5s;
 }
 
 .btn-book-now:hover .btn-icon {
-	background-color: black;
+  @apply rotate-90 bg-gray-50 ;
+  border-color: var(--color-hover);
 }
 
-/* SVG do ícone */
-.btn-icon-svg {
-	@apply text-black transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] p-2;
-	font-size: 0.8rem;
-	transform-origin: center;
-	transition-property: color, transform;
-	transition-duration: 1s;
-	transition-timing-function: cubic-bezier(0.51, 0.026, 0.368, 1.016);
+
+.btn-icon {
+  @apply
+    w-8 h-8 flex justify-end bg-gray-50
+    text-gray-50 ease-linear duration-300 rounded-full
+    border p-2 rotate-45;
+    border-color: var(--color-hover);
 }
 
-/* Rotaciona no hover */
-.btn-book-now:hover .btn-icon-svg {
-	transform: rotate(-45deg);
-	color: var(--color-accent);
+
+.btn-icon path {
+
+  fill: var(--color-hover);
 }
 
-/* Texto do botão */
-.btn-text {
-	@apply pl-10 pr-10 text-black mx-4 transition-all duration-1000 ease-[cubic-bezier(0.51,0.026,0.368,1.016)];
-}
-.btn-book-now.active {
-	background-color: var(--color-accent);
-}
 
-.btn-book-now.active .btn-bg-fill {
-	width: 100%;
-}
-
-.btn-book-now.active .btn-icon {
-	background-color: black;
-}
-
-.btn-book-now.active .btn-icon-svg {
-	transform: rotate(-45deg);
-	color: var(--color-accent);
-}
 
 .custom-shape-divider-bottom-1754796570 {
 	@apply absolute bottom-0 left-0 w-full overflow-hidden rotate-180;
@@ -120,3 +101,4 @@
 .custom-shape-divider-bottom-1754796570 .shape-fill {
 	fill: var(--color-hover);
 }
+
