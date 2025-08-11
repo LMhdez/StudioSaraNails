@@ -108,7 +108,7 @@ export default function MyCalendar({ role = "client" }) {
 			title: "Fuera de horario laboral",
 			start: "2024-01-01 23:00",
 			end: "2024-01-02 08:00",
-			rrule: "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA",
+			rrule: "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU",
 			style: {
 				backgroundImage:
 					"repeating-linear-gradient(45deg, #ccc, #ccc 5px, transparent 5px, transparent 10px)",
