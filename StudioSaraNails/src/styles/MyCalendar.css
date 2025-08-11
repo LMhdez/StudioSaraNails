@@ -6,7 +6,8 @@
 	@apply w-full p-3;
 }
 .sx__date-picker__day-name,
-.sx__month-agenda-day-names {
+.sx__month-agenda-day-names,
+.sx__week-grid__date>div {
 	@apply text-black;
 }
 .sx-react-calendar-wrapper {
@@ -48,3 +49,8 @@
 }
 
 
+
+
+.sx__week-grid__date.sx__sunday>div {
+	color: var(--sx-color-neutral);
+}
