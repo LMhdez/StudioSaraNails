@@ -12,17 +12,38 @@
 		"services": "Services",
 		"appointments": "Appointments",
 		"clients": "Clients",
-		"SeeMore": "See More"
+		"see-more": "See More"
 	},
 
 	"services":{
-		"softGel": "Soft Gel",
-		"acrylicSystem": "Acrylic System",
-		"rubberBaseLeveling": "Rubber Base Leveling",
+		"soft-gel": "Soft Gel",
+		"acrylic-system": "Acrylic System",
+		"rubber-base-leveling": "Rubber Base Leveling",
 		"kapping": "Kapping"
+	},
+
+	"calendar": {
+		"title": "Calendar",
+		"buttonText": "Check Availability",
+		"busy": "Busy",
+		"free": "Free",
+		"previous": "Previous",
+		"next": "Next",
+		"today": "Today",
+		"month": "Month",
+		"week": "Week",
+		"day": "Day",
+		"agenda": "Agenda",
+		"Monday": "Monday",
+		"Tuesday": "Tuesday",
+		"Wednesday": "Wednesday",
+		"Thursday": "Thursday",
+		"Friday": "Friday",
+		"Saturday": "Saturday",
+		"Sunday": "Sunday",
+		"date": "Date",
+		"time": "Time",
+		"slotOccupied": "This slot is occupied",
+		"newEvent": "New appointment created"
 	}
-
-	
-
-	
 }

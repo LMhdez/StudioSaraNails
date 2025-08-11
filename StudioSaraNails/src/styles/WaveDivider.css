@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+
+.custom-shape-divider-bottom-1754796570 {
+	@apply absolute bottom-0 left-0 w-full overflow-hidden rotate-180;
+	line-height: 0;
+}
+
+.custom-shape-divider-bottom-1754796570 svg {
+	@apply relative block;
+	width: calc(300% + 1.3px);
+	height: 302px;
+}
+
+.custom-shape-divider-bottom-1754796570 .shape-fill {
+	fill: var(--color-hover);
+}

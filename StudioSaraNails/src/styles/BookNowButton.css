@@ -1,0 +1,70 @@
+@reference "../index.css";
+
+.btn-book-now {
+	@apply flex justify-center gap-2 items-center mx-auto
+    text-lg text-gray-50
+    backdrop-blur-md
+    lg:font-semibold
+    isolation-auto
+    border-2
+    relative
+    z-10
+    px-4 py-2
+    overflow-hidden
+    rounded-full;
+	position: relative;
+	background-color: var(--color-hover);
+	border-color: var(--color-hover);
+	cursor: pointer;
+}
+
+.btn-book-now::before {
+	content: "";
+	@apply absolute
+    w-full
+    transition-all
+    duration-700
+    rounded-full
+    bg-white
+    aspect-square
+    -z-10;
+	left: -100%;
+	top: 50%;
+	transform: translateY(-50%);
+	scale: 1;
+	transition-property: left, scale;
+	transition-duration: 0.7s, 0.5s;
+	transition-timing-function: ease;
+}
+
+.btn-book-now:hover {
+	color: var(--color-hover);
+	border-color: var(--color-hover);
+}
+
+.btn-book-now:hover::before {
+	left: 0;
+	scale: 2;
+	transition-duration: 0.7s, 0.5s;
+}
+
+.btn-book-now:hover .btn-icon {
+	@apply rotate-90 bg-gray-50;
+	border-color: var(--color-hover);
+}
+
+.btn-icon {
+	@apply w-8 h-8
+    flex justify-end
+    bg-gray-50
+    text-gray-50
+    ease-linear duration-300
+    rounded-full
+    border p-2
+    rotate-45;
+	border-color: var(--color-hover);
+}
+
+.btn-icon path {
+	fill: var(--color-hover);
+}

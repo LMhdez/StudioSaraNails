@@ -1,0 +1,43 @@
+@reference "../index.css";
+
+.calendar-container {
+	height: 75vh;
+	max-width: 1280px;
+	@apply w-full p-3;
+}
+.sx__date-picker__day-name,
+.sx__month-agenda-day-names {
+	@apply text-black;
+}
+.sx-react-calendar-wrapper {
+	@apply w-full h-full;
+}
+
+/* Forzar visibilidad y display de los botones de navegación */
+.sx__forward-backward-navigation {
+	display: flex !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+
+/* Opcional: forzar que los botones no se oculten ni se reduzcan */
+.sx__chevron-wrapper {
+	display: inline-flex !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+.sx__is-calendar-small .sx__date-picker-wrapper {
+	display: none;
+}
+
+.sx__is-calendar-small .sx__calendar-header {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.sx__month-grid-day__header-date.sx__is-today{
+	background-color: var(--color-hover);
+}
+

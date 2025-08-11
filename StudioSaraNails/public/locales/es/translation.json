@@ -15,10 +15,35 @@
 	},
 
 	"services":{
-		"softGel": "Soft gel",
-		"acrylicSystem": "Uñas acrílicas",
-		"rubberBaseLeveling": "Nivelación de rubber base",
+		"soft-gel": "Soft gel",
+		"acrylic-system": "Uñas acrílicas",
+		"rubber-base-leveling": "Nivelación de rubber base",
 		"kapping": "Kapping"
+	},
+
+	"calendar": {
+		"title": "Calendario",
+		"buttonText": "Ver disponibilidad",
+		"busy": "Ocupado",
+		"free": "Libre",
+		"previous": "Anterior",
+		"next": "Siguiente",
+		"today": "Hoy",
+		"month": "Mes",
+		"week": "Semana",
+		"day": "Día",
+		"agenda": "Agenda",
+		"Monday": "Lunes",
+		"Tuesday": "Martes",
+		"Wednesday": "Miércoles",
+		"Thursday": "Jueves",
+		"Friday": "Viernes",
+		"Saturday": "Sábado",
+		"Sunday": "Domingo",
+		"date": "Fecha",
+		"time": "Hora",
+		"slotOccupied": "Este espacio ya está ocupado",
+		"newEvent": "Nueva cita creada"
 	}
 
 }

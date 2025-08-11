@@ -1,7 +1,8 @@
 @reference "../index.css";
 
 .home-title-div {
-	@apply pb-4 text-center flex flex-col items-center justify-center gap-8 pt-10 sm:pt-20;
+	@apply pb-4 text-center flex flex-col items-center justify-center gap-8 pt-10 sm:pt-20 mx-20;
+	max-width: 1280px;
 }
 
 .home-title-div h2 {
@@ -11,94 +12,3 @@
 .home-title-div h2 > .last-word {
 	color: var(--color-accent);
 }
-
-.flowers-container {
-	@apply flex items-center justify-between w-full px-8 sm:px-20 md:px-40;
-}
-
-.flowers-container :first-child {
-	@apply w-16 h-auto rotate-45;
-}
-
-.flowers-container :last-child {
-	@apply w-16 h-auto -rotate-45;
-}
-
-
-
-.btn-book-now {
-  @apply
-    flex justify-center gap-2 items-center mx-auto
-    text-lg text-gray-50 
-    backdrop-blur-md lg:font-semibold isolation-auto border-2 
-    relative z-10 px-4 py-2 overflow-hidden rounded-full 
-    ;
-  position: relative;
-    background-color: var(--color-hover);
-    border-color: var(--color-hover);
-    cursor: pointer;
-
-}
-
-.btn-book-now::before {
-  content: "";
-  @apply
-    absolute w-full transition-all duration-700 rounded-full
-    bg-white aspect-square -z-10;
-  left: -100%;
-  top: 50%;
-  transform: translateY(-50%);
-  scale: 1;
-  transition-property: left, scale;
-  transition-duration: 0.7s, 0.5s;
-  transition-timing-function: ease;
-}
-
-.btn-book-now:hover {
-  color:  var(--color-hover);
-  border-color: var(--color-hover);
-}
-
-.btn-book-now:hover::before {
-  left: 0;
-  scale: 2;
-  transition-duration: 0.7s, 0.5s;
-}
-
-.btn-book-now:hover .btn-icon {
-  @apply rotate-90 bg-gray-50 ;
-  border-color: var(--color-hover);
-}
-
-
-.btn-icon {
-  @apply
-    w-8 h-8 flex justify-end bg-gray-50
-    text-gray-50 ease-linear duration-300 rounded-full
-    border p-2 rotate-45;
-    border-color: var(--color-hover);
-}
-
-
-.btn-icon path {
-
-  fill: var(--color-hover);
-}
-
-
-
-.custom-shape-divider-bottom-1754796570 {
-	@apply absolute bottom-0 left-0 w-full overflow-hidden rotate-180;
-	line-height: 0;
-}
-
-.custom-shape-divider-bottom-1754796570 svg {
-	@apply relative block;
-	width: calc(300% + 1.3px);
-	height: 302px;
-}
-
-.custom-shape-divider-bottom-1754796570 .shape-fill {
-	fill: var(--color-hover);
-}
-
