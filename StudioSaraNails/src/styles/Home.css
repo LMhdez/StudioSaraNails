@@ -2,7 +2,6 @@
 
 .home-title-div {
 	@apply pb-4 text-center flex flex-col items-center justify-center gap-8 pt-10 sm:pt-20 mx-20;
-	max-width: 1280px;
 }
 
 .home-title-div h2 {
