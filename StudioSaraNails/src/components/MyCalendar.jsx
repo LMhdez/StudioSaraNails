@@ -8,7 +8,7 @@ import {
 	parseISO,
 	addDays,
 	startOfYear,
-	isSunday
+	isSunday,
 } from "date-fns";
 import supabase from "../supabaseClient";
 import { useTranslation } from "react-i18next";
@@ -137,6 +137,16 @@ export default function MyCalendar({ role = "client" }) {
 			},
 		},
 	];
+	useEffect(() => {
+		// Selecciona todos los botones con clase sx__month-agenda-day y sx__sunday
+		const buttons = document.querySelectorAll(
+			"button.sx__month-agenda-day.sx__sunday"
+		);
+
+		buttons.forEach((btn) => {
+			btn.disabled = true;
+		});
+	}, [events]);
 
 	const monthGridView = createViewMonthGrid();
 	const recurrencePlugin = createEventRecurrencePlugin();
@@ -172,6 +182,7 @@ export default function MyCalendar({ role = "client" }) {
 				calendarControls.setDate(date);
 				console.log("Doble clic en la fecha:", date);
 			},
+
 			onClickDate(date) {
 				if (isSunday(date)) {
 					return;
