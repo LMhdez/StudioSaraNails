@@ -1,9 +1,24 @@
+import TopBar from "../components/TopBar";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import "../i18n";
+import "../styles/Home.css";
+import HomeTitle from "../components/HomeTitle";
+import BookNowButton from "../components/BookNowButton";
+import WaveDivider from "../components/WaveDivider";
+import MyCalendar from "../components/MyCalendar";
+import "../styles/Schedule.css";
 
 export default function Schedule() {
-    return (
-        <div className="schedule-page">
-            <h1>Welcome to the Schedule Page</h1>
-            <p>This is the main content of the schedule page.</p>
-        </div>
-    );
+	const { i18n } = useTranslation();
+
+	return (
+		<>
+			<TopBar />
+			<div className="schedule-content">
+				{/* Key depende del idioma actual */}
+				<MyCalendar key={i18n.language} />
+			</div>
+		</>
+	);
 }

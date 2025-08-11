@@ -1,0 +1,14 @@
+@reference "../index.css";
+
+
+.flowers-container {
+	@apply flex items-center justify-between w-full;
+}
+
+.flowers-container :first-child {
+	@apply w-16 h-auto rotate-45;
+}
+
+.flowers-container :last-child {
+	@apply w-16 h-auto -rotate-45;
+}

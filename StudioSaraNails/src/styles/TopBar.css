@@ -1,6 +1,4 @@
-
 @reference "../index.css";
-
 
 /* Transitions para mobile menu */
 #mobile-menu {
@@ -12,7 +10,7 @@
 .topbar-nav {
 	background-color: var(--color-bg-main);
 	color: white;
-	@apply shadow-md ;
+	@apply shadow-md;
 }
 
 /* Contenedor principal */
@@ -27,12 +25,12 @@
 
 /* Logo */
 .topbar-nav .logo-link {
-	@apply text-2xl font-bold flex-shrink-0 ;
+	@apply text-2xl font-bold flex-shrink-0;
 	color: var(--color-accent);
 }
 
 .topbar-nav .logo-link img {
-	@apply h-24 w-auto ;
+	@apply h-24 w-auto;
 }
 
 /* Menú escritorio */
@@ -47,6 +45,23 @@
 
 .topbar-nav .desktop-menu a:hover {
 	color: var(--color-accent);
+}
+
+.topbar-nav .desktop-menu a.active-link {
+	@apply relative font-semibold text-[var(--color-accent)];
+}
+
+.topbar-nav .desktop-menu a.active-link::after {
+	content: "";
+	@apply absolute bottom-0 left-1/2 h-[3px] rounded-full bg-[var(--color-accent)] transition-all duration-300 ease-in-out;
+	width: 0%;
+	transform: translateX(-50%);
+	transition-property: width, transform;
+}
+
+.topbar-nav .desktop-menu a.active-link:hover::after,
+.topbar-nav .desktop-menu a.active-link::after {
+	width: 60%;
 }
 
 /* Botón menú móvil */
@@ -94,4 +109,20 @@
 
 .topbar-nav .mobile-menu .menu-links a:hover {
 	color: var(--color-accent);
+}
+
+.topbar-nav .mobile-menu .menu-links a.active-link {
+	@apply relative text-[var(--color-accent)] font-semibold;
+}
+
+.topbar-nav .mobile-menu .menu-links a.active-link::after {
+	content: "";
+	@apply absolute bottom-0 left-0 h-[2px] rounded-full bg-[var(--color-accent)] transition-all duration-300 ease-in-out;
+	width: 0%;
+	transition-property: width;
+}
+
+.topbar-nav .mobile-menu .menu-links a.active-link:hover::after,
+.topbar-nav .mobile-menu .menu-links a.active-link::after {
+	width: 100%;
 }

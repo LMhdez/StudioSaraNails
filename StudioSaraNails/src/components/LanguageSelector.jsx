@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import "./styles/LanguageSelector.css";
+import "../styles/LanguageSelector.css";
 
 export default function LanguageSelector({ currentLang, onChange }) {
 	const [open, setOpen] = useState(false);

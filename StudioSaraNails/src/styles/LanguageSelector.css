@@ -13,17 +13,41 @@
 
 .language-selector-icon {
 	@apply w-4 h-4 transform transition-transform duration-300;
+	/* Estado normal: no rotada */
+	transform: rotate(0deg);
 }
 
+/* Menu normal, debajo del botón */
 .language-selector-menu {
-	@apply absolute -right-0.5 mt-2 w-full sm:w-18 rounded shadow-lg focus:outline-none z-20;
+	@apply absolute -right-0.5 mt-2 w-full sm:w-18 rounded shadow-lg focus:outline-none z-50;
 	background-color: var(--color-hover);
 }
 
+/* Opciones */
 .language-selector-item {
 	@apply block px-4 py-3 text-white text-base sm:text-sm cursor-pointer transition-colors;
 }
 
 .language-selector-item:hover {
 	background-color: var(--color-accent);
+}
+
+/* Media query para pantalla mediana o menor (por ejemplo max-width 768px) */
+@media (max-width: 768px) {
+	/* Rota la flecha 90 grados */
+	.language-selector-icon {
+		transform: rotate(280deg);
+	}
+
+	/* Mover el menú para que aparezca a la derecha del botón */
+	.language-selector-menu {
+		@apply left-full top-0 mt-0 ml-2; /* posiciona el menú a la derecha */
+		right: auto; /* elimina la posición -right-0.5 */
+		width: auto; /* ajusta el ancho para no tomar todo el width */
+		height: 40px;
+	}
+	.language-selector-item {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
 }

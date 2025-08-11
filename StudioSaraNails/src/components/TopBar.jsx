@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
 import logo from "/logoSaraNails-removebg-preview.png";
-import "./i18n";
+import "../i18n";
 import LanguageSelector from "./LanguageSelector";
-import "./styles/TopBar.css";
+import "../styles/TopBar.css";
 
 export default function TopBar() {
 	const { t, i18n } = useTranslation();
@@ -31,18 +32,24 @@ export default function TopBar() {
 				<div className="content">
 					{/* Logo */}
 					<div className="logo-link">
-						<a href="/">
+						<NavLink to="/">
 							<img src={logo} alt="Logo Saranails" />
-						</a>
+						</NavLink>
 						<h1 className="hidden">Studio Sara Nails</h1>
 					</div>
 
 					{/* Desktop menu */}
 					<div className="desktop-menu">
 						{menuItems.map((key) => (
-							<a key={key} href="#">
+							<NavLink
+								key={key}
+								to={`/${key}`} // rota baseada na key
+								className={({ isActive }) =>
+									isActive ? "active-link" : ""
+								}
+							>
 								{t(`nav.${key}`)}
-							</a>
+							</NavLink>
 						))}
 
 						<LanguageSelector
@@ -108,9 +115,15 @@ export default function TopBar() {
 			>
 				<div className="menu-links">
 					{menuItems.map((key) => (
-						<a key={key} href="#">
+						<NavLink
+							key={key}
+							to={`/${key}`}
+							className={({ isActive }) =>
+								isActive ? "active-link" : ""
+							}
+						>
 							{t(`nav.${key}`)}
-						</a>
+						</NavLink>
 					))}
 
 					<LanguageSelector
