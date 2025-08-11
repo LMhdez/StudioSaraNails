@@ -8,6 +8,7 @@ import {
 	parseISO,
 	addDays,
 	startOfYear,
+	isSunday
 } from "date-fns";
 import supabase from "../supabaseClient";
 import { useTranslation } from "react-i18next";
@@ -164,16 +165,25 @@ export default function MyCalendar({ role = "client" }) {
 		locale: localesMap[i18n.language],
 		callbacks: {
 			onDoubleClickAgendaDate(date) {
+				if (isSunday(date)) {
+					return;
+				}
 				calendarControls.setView("day");
 				calendarControls.setDate(date);
 				console.log("Doble clic en la fecha:", date);
 			},
 			onClickDate(date) {
+				if (isSunday(date)) {
+					return;
+				}
 				calendarControls.setView("day");
 				calendarControls.setDate(date);
 				console.log("Clic en la fecha:", date);
 			},
 			onEventClick(event) {
+				if (isSunday(event.start)) {
+					return;
+				}
 				// Cambiar a vista día
 				calendarControls.setView("day");
 				// Setear la fecha al día del evento

@@ -41,3 +41,10 @@
 	background-color: var(--color-hover);
 }
 
+.sx__month-agenda-day.sx__sunday, button.sx__month-agenda-day:disabled {
+	background-image:
+					"repeating-linear-gradient(45deg, #ccc, #ccc 5px, transparent 5px, transparent 10px)";
+				opacity: 0.3;
+}
+
+
