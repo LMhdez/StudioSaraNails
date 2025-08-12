@@ -137,16 +137,25 @@ export default function MyCalendar({ role = "client" }) {
 			},
 		},
 	];
-	useEffect(() => {
-		// Selecciona todos los botones con clase sx__month-agenda-day y sx__sunday
-		const buttons = document.querySelectorAll(
-			"button.sx__month-agenda-day.sx__sunday"
-		);
 
-		buttons.forEach((btn) => {
-			btn.disabled = true;
+	useEffect(() => {
+		const observer = new MutationObserver(() => {
+			const buttons = document.querySelectorAll(
+				"button.sx__month-agenda-day.sx__sunday"
+			);
+			buttons.forEach((btn) => {
+				btn.disabled = true;
+			});
 		});
-	}, [events]);
+
+		// Observar todo el calendario
+		const calendarEl = document.querySelector(".calendar-container");
+		if (calendarEl) {
+			observer.observe(calendarEl, { childList: true, subtree: true });
+		}
+
+		return () => observer.disconnect();
+	}, []);
 
 	const monthGridView = createViewMonthGrid();
 	const recurrencePlugin = createEventRecurrencePlugin();
@@ -180,12 +189,14 @@ export default function MyCalendar({ role = "client" }) {
 				}
 				calendarControls.setView("day");
 				calendarControls.setDate(date);
-				console.log("Doble clic en la fecha:", date);
 			},
 
 			onClickDate(date) {
 				// Si es domingo o la fecha es antes de hoy + 2 días, retornar sin hacer nada
-				if (isSunday(date) || date <= format(addDays(today, 2), "yyyy-MM-dd")) {
+				if (
+					isSunday(date) ||
+					date <= format(addDays(today, 2), "yyyy-MM-dd")
+				) {
 					return;
 				}
 
@@ -200,7 +211,6 @@ export default function MyCalendar({ role = "client" }) {
 				calendarControls.setView("day");
 				// Setear la fecha al día del evento
 				calendarControls.setDate(event.start.slice(0, 10)); // 'yyyy-MM-dd'
-				console.log("Clic en el evento:", event);
 			},
 		},
 	});
