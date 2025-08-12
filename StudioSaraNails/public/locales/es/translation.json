@@ -44,6 +44,32 @@
 		"time": "Hora",
 		"slotOccupied": "Este espacio ya está ocupado",
 		"newEvent": "Nueva cita creada"
+	},
+	"form": {
+		"nameLabel": "Nombre",
+		"namePlaceholder": "Tu nombre",
+		"nameRequired": "El nombre es obligatorio",
+		"nameMin": "Debe tener al menos 3 caracteres",
+		"phoneLabel": "Teléfono (Venezuela)",
+		"phonePlaceholder": "04121234567",
+		"phoneRequired": "El teléfono es obligatorio",
+		"phoneInvalid": "Número inválido (ej. 04121234567)",
+		"emailLabel": "Correo electrónico",
+		"emailPlaceholder": "tu@correo.com",
+		"emailRequired": "El correo electrónico es obligatorio",
+		"emailInvalid": "Correo electrónico inválido",
+		"serviceLabel": "Servicio",
+		"servicePlaceholder": "Selecciona un servicio",
+		"serviceRequired": "Por favor selecciona un servicio",
+		"buttons": {
+			"cancel": "Cancelar",
+			"submit": "Reservar cita"
+		},
+		"bookingFor": "Reservando para:",
+		"toast": {
+			"title": "Gracias por reservar.",
+			"message1": "Tu solicitud está pendiente de confirmación por parte de la manicurista.",
+			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp."
+		}
 	}
-
 }

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@hookform/resolvers": "^5.2.1",
     "@schedule-x/calendar": "^2.36.0",
     "@schedule-x/calendar-controls": "^2.36.0",
     "@schedule-x/current-time": "^2.36.0",

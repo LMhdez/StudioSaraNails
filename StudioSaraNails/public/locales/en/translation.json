@@ -3,10 +3,9 @@
 		"services": "Services",
 		"schedule": "Schedule",
 		"contact": "Contact"
-		
 	},
 
-	"home":{
+	"home": {
 		"title": "Book your appointment effortlessly",
 		"buttonText": "Book Now",
 		"services": "Services",
@@ -15,7 +14,7 @@
 		"see-more": "See More"
 	},
 
-	"services":{
+	"services": {
 		"soft-gel": "Soft Gel",
 		"acrylic-system": "Acrylic System",
 		"rubber-base-leveling": "Rubber Base Leveling",
@@ -45,5 +44,32 @@
 		"time": "Time",
 		"slotOccupied": "This slot is occupied",
 		"newEvent": "New appointment created"
+	},
+	"form": {
+		"nameLabel": "Name",
+		"namePlaceholder": "Your name",
+		"nameRequired": "Name is required",
+		"nameMin": "Must be at least 3 characters",
+		"phoneLabel": "Phone (Venezuela)",
+		"phonePlaceholder": "04121234567",
+		"phoneRequired": "Phone is required",
+		"phoneInvalid": "Invalid number (e.g. 04121234567)",
+		"emailLabel": "Email",
+		"emailPlaceholder": "your@email.com",
+		"emailRequired": "Email is required",
+		"emailInvalid": "Invalid email",
+		"serviceLabel": "Service",
+		"servicePlaceholder": "Select a service",
+		"serviceRequired": "Please select a service",
+		"buttons": {
+			"cancel": "Cancel",
+			"submit": "Book appointment"
+		},
+		"bookingFor": "Booking for:",
+		"toast": {
+			"title": "Thanks for booking.",
+			"message1": "Your request is pending confirmation from the manicurist.",
+			"message2": "You will receive an email and we will contact you soon via WhatsApp."
+		}
 	}
 }

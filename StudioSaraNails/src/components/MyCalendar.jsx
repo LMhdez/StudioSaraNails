@@ -28,10 +28,13 @@ import "@schedule-x/theme-default/dist/index.css";
 import "../styles/MyCalendar.css";
 import { createCalendarControlsPlugin } from "@schedule-x/calendar-controls";
 import { createScrollControllerPlugin } from "@schedule-x/scroll-controller";
+import AppointmentForm from "./AppointmentForm";
 
 export default function MyCalendar({ role = "client" }) {
 	const { t, i18n } = useTranslation();
 	const [events, setEvents] = useState([]);
+	const [showAppointmentPopup, setShowAppointmentPopup] = useState(false);
+	const [selectedSlot, setSelectedSlot] = useState(null);
 
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
@@ -146,6 +149,7 @@ export default function MyCalendar({ role = "client" }) {
 			buttons.forEach((btn) => {
 				btn.disabled = true;
 			});
+			
 		});
 
 		// Observar todo el calendario
@@ -156,6 +160,64 @@ export default function MyCalendar({ role = "client" }) {
 
 		return () => observer.disconnect();
 	}, []);
+
+	const handleAppointmentSubmit = async (formValues) => {
+		console.log("Datos recibidos del formulario:", formValues);
+		const startDateTime = `${selectedSlot.dateTime}:00`; // HH:mm:ss
+		const endDateTime = format(
+			addHours(new Date(startDateTime), 4), // duración de 4 horas
+			"yyyy-MM-dd HH:mm:ss"
+		);
+
+		// Verificar solapamiento con eventos existentes en el estado
+		const isConflict = events.some((ev) => {
+			return ev.start < endDateTime && ev.end > startDateTime;
+		});
+
+		if (isConflict) {
+			alert("Ya existe un evento en este horario.");
+			return;
+		}
+		// Aquí armas el objeto como lo necesita tu base de datos
+		const newAppointment = {
+			customer_name: formValues.name,
+			customer_email: formValues.email,
+			customer_phone: formValues.phone,
+			service_type: formValues.service,
+			date: selectedSlot.dateTime.slice(0, 10), // yyyy-MM-dd
+			start_time: selectedSlot.dateTime.slice(11, 19), // HH:mm
+			duration_hours: 4,
+			status: "pending",
+		};
+
+		// Guardar en Supabase
+		const { data, error } = await supabase
+			.from("appointments")
+			.insert(newAppointment)
+			.select("id")
+			.single();
+
+		if (error) {
+			console.error("Error al crear cita:", error);
+			return;
+		}
+
+		// Crear evento en el calendario
+		eventsService.add({
+			id: data.id,
+			title: `${newAppointment.customer_name} - ${newAppointment.service_type}`,
+			start: `${newAppointment.date} ${newAppointment.start_time}`,
+			end: format(
+				addHours(
+					new Date(
+						`${newAppointment.date}T${newAppointment.start_time}`
+					),
+					newAppointment.duration_hours
+				),
+				"yyyy-MM-dd HH:mm"
+			),
+		});
+	};
 
 	const monthGridView = createViewMonthGrid();
 	const recurrencePlugin = createEventRecurrencePlugin();
@@ -212,6 +274,24 @@ export default function MyCalendar({ role = "client" }) {
 				// Setear la fecha al día del evento
 				calendarControls.setDate(event.start.slice(0, 10)); // 'yyyy-MM-dd'
 			},
+			onClickDateTime(dateTime, e) {
+				console.log("click on", dateTime);
+
+				if (e.target.className === "sx__time-grid-background-event") {
+					console.log("click on background event", dateTime);
+					return;
+				}
+				const date = new Date(dateTime);
+
+				// Forzar minutos y segundos a 0
+				date.setMinutes(0, 0, 0);
+
+				// Volver a formatear a "yyyy-MM-dd HH:mm"
+				const roundedDateTime = format(date, "yyyy-MM-dd HH:mm");
+
+				setSelectedSlot({ dateTime: roundedDateTime, event: e });
+				setShowAppointmentPopup(true);
+			},
 		},
 	});
 
@@ -223,6 +303,14 @@ export default function MyCalendar({ role = "client" }) {
 	return (
 		<div className="calendar-container">
 			<ScheduleXCalendar calendarApp={calendarApp} />
+			{showAppointmentPopup && (
+				<AppointmentForm
+					dateTime={selectedSlot?.dateTime}
+					event={selectedSlot?.event}
+					onClose={() => setShowAppointmentPopup(false)}
+					onSubmit={handleAppointmentSubmit}
+				/>
+			)}
 		</div>
 	);
 }
