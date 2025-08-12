@@ -160,7 +160,7 @@ export default function MyCalendar({ role = "client" }) {
 		defaultView: monthGridView.name,
 		events: [],
 		backgroundEvents: backgroundEvents,
-		minDate: todayStr,
+		minDate: format(addDays(today, 2), "yyyy-MM-dd"),
 		plugins: [
 			eventsService,
 			createCurrentTimePlugin(),
@@ -184,12 +184,13 @@ export default function MyCalendar({ role = "client" }) {
 			},
 
 			onClickDate(date) {
-				if (isSunday(date)) {
+				// Si es domingo o la fecha es antes de hoy + 2 días, retornar sin hacer nada
+				if (isSunday(date) || date <= format(addDays(today, 2), "yyyy-MM-dd")) {
 					return;
 				}
+
 				calendarControls.setView("day");
 				calendarControls.setDate(date);
-				console.log("Clic en la fecha:", date);
 			},
 			onEventClick(event) {
 				if (isSunday(event.start)) {
