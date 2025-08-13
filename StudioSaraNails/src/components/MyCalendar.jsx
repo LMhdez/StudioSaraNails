@@ -203,6 +203,7 @@ export default function MyCalendar({ role = "client" }) {
 		}
 
 		// Crear evento en calendario
+		
 		eventsService.add({
 			id: data.id,
 			title: `${newAppointment.customer_name} - ${newAppointment.service_type}`,
@@ -217,74 +218,85 @@ export default function MyCalendar({ role = "client" }) {
 				"yyyy-MM-dd HH:mm"
 			),
 		});
+		console.log(eventsService.get(data.id));
+		
+console.log(format(
+				addHours(
+					new Date(
+						`${newAppointment.date}T${newAppointment.start_time}`
+					),
+					newAppointment.duration_hours
+				),
+				"yyyy-MM-dd HH:mm"
+			));
 
 		// Enviar email con EmailJS
-		try {
-			await emailjs.send(
-				import.meta.env.VITE_EMAILJS_SERVICE_ID,
-				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-				{
-					to_email: `${newAppointment.customer_email}`,
-					subject: t("email.subject"),
-					label_name: t("email.label_name"),
-					label_email: t("email.label_email"),
-					label_phone: t("email.label_phone"),
-					label_service: t("email.label_service"),
-					label_date: t("email.label_date"),
-					label_start_time: t("email.label_start_time"),
-					label_duration: t("email.label_duration"),
-					footer_message: t("email.footer_message"),
-					closing: t("email.closing"),
+		// try {
+		// 	await emailjs.send(
+		// 		import.meta.env.VITE_EMAILJS_SERVICE_ID,
+		// 		import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+		// 		{
+		// 			to_email: `${newAppointment.customer_email}`,
+		// 			subject: t("email.subject"),
+		// 			label_name: t("email.label_name"),
+		// 			label_email: t("email.label_email"),
+		// 			label_phone: t("email.label_phone"),
+		// 			label_service: t("email.label_service"),
+		// 			label_date: t("email.label_date"),
+		// 			label_start_time: t("email.label_start_time"),
+		// 			label_duration: t("email.label_duration"),
+		// 			footer_message: t("email.footer_message"),
+		// 			closing: t("email.closing"),
 
-					customer_name: newAppointment.customer_name,
-					customer_email: newAppointment.customer_email,
-					customer_phone: newAppointment.customer_phone,
-					service_type: newAppointment.service_type,
-					date: newAppointment.date,
-					start_time: newAppointment.start_time,
-					duration_hours: newAppointment.duration_hours,
-				},
-				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-			);
+		// 			customer_name: newAppointment.customer_name,
+		// 			customer_email: newAppointment.customer_email,
+		// 			customer_phone: newAppointment.customer_phone,
+		// 			service_type: newAppointment.service_type,
+		// 			date: newAppointment.date,
+		// 			start_time: newAppointment.start_time,
+		// 			duration_hours: newAppointment.duration_hours,
+		// 		},
+		// 		import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+		// 	);
 
-			console.log("Email enviado con éxito");
-		} catch (err) {
-			console.error("Error enviando email:", err);
-			return false;
-		}
-		try {
-			await emailjs.send(
-				import.meta.env.VITE_EMAILJS_SERVICE_ID,
-				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-				{
-					to_email: "soe18.sara@gmail.com",
-					customer_name: newAppointment.customer_name,
-					customer_email: newAppointment.customer_email,
-					customer_phone: newAppointment.customer_phone,
-					service_type: newAppointment.service_type,
-					date: newAppointment.date,
-					start_time: newAppointment.start_time,
-					duration_hours: newAppointment.duration_hours,
+		// 	console.log("Email enviado con éxito");
+		// } catch (err) {
+		// 	console.error("Error enviando email:", err);
+		// 	return false;
+		// }
+		// try {
+		// 	await emailjs.send(
+		// 		import.meta.env.VITE_EMAILJS_SERVICE_ID,
+		// 		import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+		// 		{
+		// 			to_email: "soe18.sara@gmail.com",
+		// 			customer_name: newAppointment.customer_name,
+		// 			customer_email: newAppointment.customer_email,
+		// 			customer_phone: newAppointment.customer_phone,
+		// 			service_type: newAppointment.service_type,
+		// 			date: newAppointment.date,
+		// 			start_time: newAppointment.start_time,
+		// 			duration_hours: newAppointment.duration_hours,
 
-					subject: "Nueva cita solicitada",
-					footer_message: "Revisar detalles y confirmar la cita.",
-					closing: "Saludos",
-					label_name: "Nombre",
-					label_email: "Correo",
-					label_phone: "Teléfono",
-					label_service: "Servicio",
-					label_date: "Fecha",
-					label_start_time: "Hora inicio",
-					label_duration: "Duración",
-				},
-				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-			);
-			console.log("Email enviado al admin con éxito");
-		} catch (err) {
-			console.error("Error enviando email al admin:", err);
-		}
+		// 			subject: "Nueva cita solicitada",
+		// 			footer_message: "Revisar detalles y confirmar la cita.",
+		// 			closing: "Saludos",
+		// 			label_name: "Nombre",
+		// 			label_email: "Correo",
+		// 			label_phone: "Teléfono",
+		// 			label_service: "Servicio",
+		// 			label_date: "Fecha",
+		// 			label_start_time: "Hora inicio",
+		// 			label_duration: "Duración",
+		// 		},
+		// 		import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+		// 	);
+		// 	console.log("Email enviado al admin con éxito");
+		// } catch (err) {
+		// 	console.error("Error enviando email al admin:", err);
+		// }
 
-		return true;
+		// return true;
 	};
 
 	const monthGridView = createViewMonthGrid();

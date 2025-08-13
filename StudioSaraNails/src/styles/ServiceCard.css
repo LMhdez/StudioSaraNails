@@ -1,0 +1,44 @@
+@reference "../index.css";
+
+.service-card {
+  @apply w-60 h-80 rounded-3xl p-4 flex flex-col items-start justify-center gap-3 transition-shadow cursor-pointer;
+  border: 1px solid var(--color-bg-main);
+  box-shadow: 0 0 0 transparent;
+}
+
+.service-card:hover {
+  box-shadow: 0 0 20px var(--color-accent);
+  border: 1px solid var(--color-hover);
+}
+
+/* Hacer que el tag cambie cuando se pasa sobre el card */
+.service-card:hover .service-card-tag {
+  background-color: var(--color-hover);
+}
+
+.service-card-image {
+  @apply w-52 h-40 rounded-2xl overflow-hidden;
+  background-color: var(--color-accent);
+}
+
+.service-card-img {
+  @apply w-full h-full object-cover rounded-2xl;
+}
+
+.service-card-content {
+  @apply flex flex-col gap-1;
+}
+
+.service-card-title {
+  @apply font-extrabold;
+}
+
+.service-card-description {
+ 
+}
+
+.service-card-tag {
+  @apply font-extrabold p-2 px-6 rounded-xl transition-colors;
+  background-color: var(--color-bg-main);
+  color: white;
+}

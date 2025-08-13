@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { useForm, useController } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,12 +8,14 @@ import "../styles/AppointmentForm.css";
 import { useTranslation } from "react-i18next";
 import "../i18n";
 import CustomSelect from "./CustomSelect.jsx";
+import supabase from "../supabaseClient"; // importa tu cliente Supabase
 
 const venezuelaPhoneRegex = /^(0(2[0-9]{2}|4[0-9]{2}))[0-9]{7}$/;
 
 export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const modalRef = useRef(null);
+	const [serviceOptions, setServiceOptions] = useState([]);
 
 	// Esquema yup con traducción dinámica
 	const schema = yup.object({
@@ -44,6 +46,7 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 			document.removeEventListener("mousedown", handleClickOutside);
 	}, [onClose]);
 
+	// React Hook Form
 	const {
 		control,
 		register,
@@ -55,15 +58,6 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		defaultValues: { name: "", phone: "", email: "", service: "" },
 	});
 
-	const services = [
-		{ value: "soft-gel", label: t("services.soft-gel") },
-		{ value: "acrylic-system", label: t("services.acrylic-system") },
-		{
-			value: "rubber-base-leveling",
-			label: t("services.rubber-base-leveling"),
-		},
-		{ value: "kapping", label: t("services.kapping") },
-	];
 	const {
 		field: { value: serviceValue, onChange: onServiceChange },
 	} = useController({
@@ -71,18 +65,47 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		control,
 	});
 
-	const handleFormSubmit = (data) => {
-		{
-			if (onSubmit({ ...data, dateTime })) {
-				toast.success(
-					<div className="mx-4">
-						<p className="font-semibold">{t("form.toast.title")}</p>
-						<p>{t("form.toast.message1")}</p>
-						<p className="mt-1">{t("form.toast.message2")}</p>
-					</div>,
-					{ duration: 10000 }
-				);
+	// Fetch dinámico de categorías con precios
+	useEffect(() => {
+		const fetchServices = async () => {
+			const { data, error } = await supabase.from("service_categories")
+				.select(`
+					id,
+					name_es,
+					name_en,
+					services(price)
+					`);
+
+			if (error) {
+				console.error("Error fetching services:", error);
+				return;
 			}
+
+			const options = data.map((cat) => ({
+				value: cat.id,
+				label: `${
+					i18n.language === "es" ? cat.name_es : cat.name_en
+				} - ${cat.services
+					.map((s) => `$${s.price.toFixed(2)}`)
+					.join(", ")}`,
+			}));
+
+			setServiceOptions(options);
+		};
+
+		fetchServices();
+	}, [i18n.language]);
+
+	const handleFormSubmit = (data) => {
+		if (onSubmit({ ...data, dateTime })) {
+			toast.success(
+				<div className="mx-4">
+					<p className="font-semibold">{t("form.toast.title")}</p>
+					<p>{t("form.toast.message1")}</p>
+					<p className="mt-1">{t("form.toast.message2")}</p>
+				</div>,
+				{ duration: 10000 }
+			);
 		}
 
 		reset();
@@ -153,7 +176,7 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 						</label>
 
 						<CustomSelect
-							options={services}
+							options={serviceOptions}
 							value={serviceValue}
 							onChange={onServiceChange}
 							placeholder={t("form.servicePlaceholder")}

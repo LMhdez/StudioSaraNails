@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+.category-section {
+  @apply flex flex-col items-center justify-center gap-8 p-8;
+}
+.services-line{
+    @apply flex flex-row flex-wrap w-full align-middle justify-evenly;
+}
+
+.category-section > h2{
+    @apply text-2xl font-bold;
+}
+
+.custom-shape-divider-bottom-1754796570 {
+  @apply static w-full overflow-hidden rotate-180;
+  line-height: 0;
+}
