@@ -72,16 +72,18 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 	});
 
 	const handleFormSubmit = (data) => {
-		onSubmit({ ...data, dateTime });
-
-		toast.success(
-			<div className="mx-4">
-				<p className="font-semibold">{t("form.toast.title")}</p>
-				<p>{t("form.toast.message1")}</p>
-				<p className="mt-1">{t("form.toast.message2")}</p>
-			</div>,
-			{ duration: 10000 }
-		);
+		{
+			if (onSubmit({ ...data, dateTime })) {
+				toast.success(
+					<div className="mx-4">
+						<p className="font-semibold">{t("form.toast.title")}</p>
+						<p>{t("form.toast.message1")}</p>
+						<p className="mt-1">{t("form.toast.message2")}</p>
+					</div>,
+					{ duration: 10000 }
+				);
+			}
+		}
 
 		reset();
 		onClose();

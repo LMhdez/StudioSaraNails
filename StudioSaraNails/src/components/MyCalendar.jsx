@@ -11,6 +11,7 @@ import {
 	isSunday,
 } from "date-fns";
 import supabase from "../supabaseClient";
+import emailjs from "@emailjs/browser";
 import { useTranslation } from "react-i18next";
 import { useCalendarApp, ScheduleXCalendar } from "@schedule-x/react";
 import {
@@ -149,7 +150,6 @@ export default function MyCalendar({ role = "client" }) {
 			buttons.forEach((btn) => {
 				btn.disabled = true;
 			});
-			
 		});
 
 		// Observar todo el calendario
@@ -163,29 +163,29 @@ export default function MyCalendar({ role = "client" }) {
 
 	const handleAppointmentSubmit = async (formValues) => {
 		console.log("Datos recibidos del formulario:", formValues);
-		const startDateTime = `${selectedSlot.dateTime}:00`; // HH:mm:ss
+		const startDateTime = `${selectedSlot.dateTime}:00`;
 		const endDateTime = format(
-			addHours(new Date(startDateTime), 4), // duración de 4 horas
+			addHours(new Date(startDateTime), 4),
 			"yyyy-MM-dd HH:mm:ss"
 		);
 
-		// Verificar solapamiento con eventos existentes en el estado
+		// Verificar solapamiento
 		const isConflict = events.some((ev) => {
 			return ev.start < endDateTime && ev.end > startDateTime;
 		});
 
 		if (isConflict) {
 			alert("Ya existe un evento en este horario.");
-			return;
+			return false;
 		}
-		// Aquí armas el objeto como lo necesita tu base de datos
+
 		const newAppointment = {
 			customer_name: formValues.name,
 			customer_email: formValues.email,
 			customer_phone: formValues.phone,
 			service_type: formValues.service,
-			date: selectedSlot.dateTime.slice(0, 10), // yyyy-MM-dd
-			start_time: selectedSlot.dateTime.slice(11, 19), // HH:mm
+			date: selectedSlot.dateTime.slice(0, 10),
+			start_time: selectedSlot.dateTime.slice(11, 19),
 			duration_hours: 4,
 			status: "pending",
 		};
@@ -199,10 +199,10 @@ export default function MyCalendar({ role = "client" }) {
 
 		if (error) {
 			console.error("Error al crear cita:", error);
-			return;
+			return false;
 		}
 
-		// Crear evento en el calendario
+		// Crear evento en calendario
 		eventsService.add({
 			id: data.id,
 			title: `${newAppointment.customer_name} - ${newAppointment.service_type}`,
@@ -217,6 +217,74 @@ export default function MyCalendar({ role = "client" }) {
 				"yyyy-MM-dd HH:mm"
 			),
 		});
+
+		// Enviar email con EmailJS
+		try {
+			await emailjs.send(
+				import.meta.env.VITE_EMAILJS_SERVICE_ID,
+				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+				{
+					to_email: `${newAppointment.customer_email}`,
+					subject: t("email.subject"),
+					label_name: t("email.label_name"),
+					label_email: t("email.label_email"),
+					label_phone: t("email.label_phone"),
+					label_service: t("email.label_service"),
+					label_date: t("email.label_date"),
+					label_start_time: t("email.label_start_time"),
+					label_duration: t("email.label_duration"),
+					footer_message: t("email.footer_message"),
+					closing: t("email.closing"),
+
+					customer_name: newAppointment.customer_name,
+					customer_email: newAppointment.customer_email,
+					customer_phone: newAppointment.customer_phone,
+					service_type: newAppointment.service_type,
+					date: newAppointment.date,
+					start_time: newAppointment.start_time,
+					duration_hours: newAppointment.duration_hours,
+				},
+				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+			);
+
+			console.log("Email enviado con éxito");
+		} catch (err) {
+			console.error("Error enviando email:", err);
+			return false;
+		}
+		try {
+			await emailjs.send(
+				import.meta.env.VITE_EMAILJS_SERVICE_ID,
+				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+				{
+					to_email: "soe18.sara@gmail.com",
+					customer_name: newAppointment.customer_name,
+					customer_email: newAppointment.customer_email,
+					customer_phone: newAppointment.customer_phone,
+					service_type: newAppointment.service_type,
+					date: newAppointment.date,
+					start_time: newAppointment.start_time,
+					duration_hours: newAppointment.duration_hours,
+
+					subject: "Nueva cita solicitada",
+					footer_message: "Revisar detalles y confirmar la cita.",
+					closing: "Saludos",
+					label_name: "Nombre",
+					label_email: "Correo",
+					label_phone: "Teléfono",
+					label_service: "Servicio",
+					label_date: "Fecha",
+					label_start_time: "Hora inicio",
+					label_duration: "Duración",
+				},
+				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+			);
+			console.log("Email enviado al admin con éxito");
+		} catch (err) {
+			console.error("Error enviando email al admin:", err);
+		}
+
+		return true;
 	};
 
 	const monthGridView = createViewMonthGrid();
@@ -231,7 +299,7 @@ export default function MyCalendar({ role = "client" }) {
 		defaultView: monthGridView.name,
 		events: [],
 		backgroundEvents: backgroundEvents,
-		minDate: format(addDays(today, 2), "yyyy-MM-dd"),
+		minDate: format(addDays(today, 3), "yyyy-MM-dd"),
 		plugins: [
 			eventsService,
 			createCurrentTimePlugin(),

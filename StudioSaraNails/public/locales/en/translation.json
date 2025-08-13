@@ -71,5 +71,17 @@
 			"message1": "Your request is pending confirmation from the manicurist.",
 			"message2": "You will receive an email and we will contact you soon via WhatsApp."
 		}
+	},
+	"email": {
+		"subject": "Appointment request received",
+		"label_name": "Name",
+		"label_email": "Email",
+		"label_phone": "Phone",
+		"label_service": "Service",
+		"label_date": "Date",
+		"label_start_time": "Start Time",
+		"label_duration": "Duration",
+		"footer_message": "You will be contacted via WhatsApp soon.\nIf you have any questions or need assistance, feel free to contact us.",
+		"closing": "Best regards"
 	}
 }

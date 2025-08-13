@@ -5,7 +5,7 @@
 		"contact": "Contacto"
 	},
 
-	"home":{
+	"home": {
 		"title": "Reserva tu cita fácilmente",
 		"buttonText": "Reservar ahora",
 		"services": "Servicios",
@@ -14,7 +14,7 @@
 		"SeeMore": "Ver más"
 	},
 
-	"services":{
+	"services": {
 		"soft-gel": "Soft gel",
 		"acrylic-system": "Uñas acrílicas",
 		"rubber-base-leveling": "Nivelación de rubber base",
@@ -71,5 +71,18 @@
 			"message1": "Tu solicitud está pendiente de confirmación por parte de la manicurista.",
 			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp."
 		}
+	},
+
+	"email": {
+		"subject": "Solicitud de cita recibida",
+		"label_name": "Nombre",
+		"label_email": "Email",
+		"label_phone": "Teléfono",
+		"label_service": "Servicio",
+		"label_date": "Fecha",
+		"label_start_time": "Hora de inicio",
+		"label_duration": "Duración",
+		"footer_message": "Pronto te contactaremos por WhatsApp.\nSi tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.",
+		"closing": "Saludos"
 	}
 }
