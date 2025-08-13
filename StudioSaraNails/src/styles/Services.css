@@ -1,18 +1,17 @@
 @reference "../index.css";
 
 .category-section {
-  @apply flex flex-col items-center justify-center gap-8 p-8;
+	@apply flex flex-col items-center justify-center gap-8 p-8;
 }
 .services-line {
-  @apply flex flex-col sm:flex-row flex-wrap w-full items-center justify-center sm:justify-evenly gap-4;
+	@apply flex flex-col sm:flex-row flex-wrap w-full items-center justify-center sm:justify-evenly gap-4;
 }
 
-
-.category-section > h2{
-    @apply text-2xl font-bold;
+.category-section > h2 {
+	@apply text-2xl font-bold;
 }
 
 .custom-shape-divider-bottom-1754796570 {
-  @apply static w-full overflow-hidden rotate-180;
-  line-height: 0;
+	@apply static w-full overflow-hidden rotate-180;
+	line-height: 0;
 }
