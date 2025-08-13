@@ -1,10 +1,10 @@
 @reference "../index.css";
 
 .category-section {
-	@apply flex flex-col items-center justify-center gap-8 p-8;
+	@apply flex flex-col items-center justify-center gap-4 p-4 sm:p-8 sm:gap-8;
 }
 .services-line {
-	@apply flex flex-col sm:flex-row flex-wrap w-full items-center justify-center sm:justify-evenly gap-4;
+	@apply flex flex-col sm:flex-row flex-wrap w-full items-center justify-center sm:justify-evenly gap-6;
 }
 
 .category-section > h2 {
