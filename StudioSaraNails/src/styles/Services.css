@@ -3,9 +3,10 @@
 .category-section {
   @apply flex flex-col items-center justify-center gap-8 p-8;
 }
-.services-line{
-    @apply flex flex-row flex-wrap w-full align-middle justify-evenly;
+.services-line {
+  @apply flex flex-col sm:flex-row flex-wrap w-full items-center justify-center sm:justify-evenly gap-4;
 }
+
 
 .category-section > h2{
     @apply text-2xl font-bold;
