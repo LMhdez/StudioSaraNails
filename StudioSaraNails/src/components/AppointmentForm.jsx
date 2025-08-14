@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import CustomSelect from "./CustomSelect.jsx";
 import supabase from "../supabaseClient"; // importa tu cliente Supabase
+import { Link } from "react-router-dom";
 
 const venezuelaPhoneRegex = /^(0(2[0-9]{2}|4[0-9]{2}))[0-9]{7}$/;
 
@@ -171,6 +172,7 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 					</div>
 
 					<div>
+						<Link className="link" to="/services">{t("form.viewCatalog")}</Link>
 						<label className="label">
 							{t("form.serviceLabel")}
 						</label>

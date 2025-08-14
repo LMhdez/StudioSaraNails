@@ -71,7 +71,8 @@
 			"title": "Thanks for booking.",
 			"message1": "Your request is pending confirmation from the manicurist.",
 			"message2": "You will receive an email and we will contact you soon via WhatsApp."
-		}
+		},
+		"viewCatalog": "View services catalog"
 	},
 	"email": {
 		"subject": "Appointment request received",

@@ -90,3 +90,7 @@
     @apply bg-[var(--color-hover)] text-white;
 }
 
+a.link{
+	@apply underline text-xs;
+	color: var(--color-hover);
+}

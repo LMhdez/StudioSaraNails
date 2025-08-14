@@ -71,7 +71,8 @@
 			"title": "Gracias por reservar.",
 			"message1": "Tu solicitud está pendiente de confirmación por parte de la manicurista.",
 			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp."
-		}
+		},
+		"viewCatalog": "Ver catalogo de servicios"
 	},
 
 	"email": {
