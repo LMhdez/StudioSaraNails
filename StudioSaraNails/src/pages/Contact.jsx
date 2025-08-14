@@ -22,9 +22,15 @@ export default function Contact() {
 	const instagramLink = "https://www.instagram.com/studiosaranails/";
 	const whatsAppLink = "https://wa.me/584122892549";
 	const email = "soe18.sara@gmail.com";
-	const handleContactSubmit = () => {
-		window.location.href = "mailto:soe18.sara@gmail.com";
+    
+	const handleContactSubmit = (data) => {
+		const subject = encodeURIComponent(`Contacto de ${data.name}`);
+		const body = encodeURIComponent(
+			`Nombre: ${data.name}\nEmail: ${data.email}\nMensaje:\n${data.message}`
+		);
+		window.location.href = `mailto:soe18.sara@gmail.com?subject=${subject}&body=${body}`;
 	};
+
 	return (
 		<>
 			<TopBar />
