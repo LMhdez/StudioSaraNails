@@ -30,6 +30,7 @@ import "../styles/MyCalendar.css";
 import { createCalendarControlsPlugin } from "@schedule-x/calendar-controls";
 import { createScrollControllerPlugin } from "@schedule-x/scroll-controller";
 import AppointmentForm from "./AppointmentForm";
+import toast from "react-hot-toast";
 
 export default function MyCalendar({ role = "client" }) {
 	const { t, i18n } = useTranslation();
@@ -386,21 +387,17 @@ export default function MyCalendar({ role = "client" }) {
 				const newEventEnd = addHours(date, 4);
 				console.log("nuevo evento", newEventStart, newEventEnd);
 
-				
-				
 				const conflict = eventsService.getAll().some((ev) => {
 					const evStart = parseScheduleX(ev.start);
 					const evEnd = parseScheduleX(ev.end);
 					console.log(ev);
-					
+
 					return newEventStart < evEnd && newEventEnd > evStart;
 				});
 
-
 				if (conflict) {
-					console.log(
-						"Conflicto detectado: el nuevo evento se solapa con otro."
-					);
+					toast.error(t("calendar.slotOccupied"));
+
 					return;
 				}
 				console.log("No hay conflicto, creando evento");
