@@ -1,3 +1,9 @@
 .schedule-content {
 	@apply flex flex-col items-center justify-center;
 }
+
+.schedule-content > .custom-shape-divider-bottom-1754796570 {
+	position:fixed;
+	bottom: 0;
+	z-index: -300;
+}

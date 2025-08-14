@@ -1,0 +1,74 @@
+@reference "../index.css";
+
+/* Contact.css */
+.contact-page {
+	@apply bg-gradient-to-b from-pink-50 to-white;
+}
+
+.contact-main {
+	@apply flex flex-col md:flex-row items-center justify-between w-full min-h-screen p-6;
+}
+.contact-left-div {
+	@apply flex-1 flex flex-col items-center md:items-start justify-center p-4 md:p-8;
+}
+
+.contact-title-div h2 {
+	@apply text-3xl md:text-5xl font-bold text-gray-800 mb-6;
+}
+
+.contact-title-div .highlight {
+	color: var(--color-accent);
+}
+
+.contact-form-div {
+	@apply w-full max-w-md bg-white p-6 rounded-2xl shadow-lg;
+}
+
+.contact-right-div {
+	@apply flex-1 flex items-center justify-center relative mt-8 md:mt-0;
+}
+
+/* SVG circular positioned left, responsive */
+.contact-right-div .svg-container {
+	@apply absolute -left-16 sm:-left-20 md:-left-10 lg:left-10 top-1/2 transform -translate-y-1/2 pointer-events-none overflow-visible z-20;
+
+	/* Tamaño responsive */
+	@apply w-32 h-32 sm:w-40 sm:h-40 md:w-64 md:h-64 lg:w-72 lg:h-72;
+}
+
+.contact-right-div svg {
+	@apply w-full h-full;
+}
+
+.contact-right-div svg textPath {
+	@apply font-semibold;
+}
+
+/* Image on top of SVG */
+.contact-right-div img {
+	@apply w-48 md:w-64 lg:w-80 h-auto rounded-2xl shadow-xl border-4 relative z-10;
+	border-color: var(--color-hover);
+	object-fit: cover;
+}
+
+.contact-social-media {
+	@apply w-full flex flex-row items-stretch justify-evenly py-8 ;
+    background-color: var(--color-hover);
+    color: white;
+    min-height: 300px;
+}
+.social-icons, .contact-info {
+	@apply flex flex-col items-stretch justify-evenly ;
+}
+
+.social-icons > a{
+	@apply flex flex-col sm:flex-row justify-start gap-1 text-start items-center sm:gap-8;
+}
+.social-icons > a > svg {
+    @apply w-8 h-8  ;
+}
+
+.contact-page > .custom-shape-divider-bottom-1754796570 {
+	@apply static pb-6;
+    
+}

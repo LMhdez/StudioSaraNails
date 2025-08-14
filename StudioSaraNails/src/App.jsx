@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ServicesProvider } from "./contexts/ServicesContext";
 import { useTranslation } from "react-i18next";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function App() {
 						<Route path="/" element={<Home />} />
 						<Route path="/schedule" element={<Schedule />} />
 						<Route path="/services" element={<Services />} />
+						<Route path="/contact" element={<Contact />} />
 					</Routes>
 				</Router>
 				<Toaster />

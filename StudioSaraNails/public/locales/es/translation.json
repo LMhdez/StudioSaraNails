@@ -61,6 +61,7 @@
 		"serviceLabel": "Servicio",
 		"servicePlaceholder": "Selecciona un servicio",
 		"serviceRequired": "Por favor selecciona un servicio",
+		"messageRequired": "El mensaje es obligatorio",
 		"buttons": {
 			"cancel": "Cancelar",
 			"submit": "Reservar cita"
@@ -84,5 +85,18 @@
 		"label_duration": "Duración",
 		"footer_message": "Pronto te contactaremos por WhatsApp.\nSi tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.",
 		"closing": "Saludos"
+	},
+	"contact": {
+		"title": "La belleza empieza con un contacto",
+		"email": "Correo electrónico",
+		"emailPlaceholder": "tu@correo.com",
+		"message": "Mensaje",
+		"messagePlaceholder": "Escribe tu mensaje aquí...",
+		"submit": "Enviar mensaje",
+		"roundText": "Contáctame",
+		"toast": {
+			"title": "Mensaje enviado",
+			"message": "Gracias por tu mensaje. Nos pondremos en contacto contigo pronto."
+		}
 	}
 }

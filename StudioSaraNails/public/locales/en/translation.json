@@ -61,6 +61,7 @@
 		"serviceLabel": "Service",
 		"servicePlaceholder": "Select a service",
 		"serviceRequired": "Please select a service",
+		"messageRequired": "Message is required",
 		"buttons": {
 			"cancel": "Cancel",
 			"submit": "Book appointment"
@@ -83,5 +84,18 @@
 		"label_duration": "Duration",
 		"footer_message": "You will be contacted via WhatsApp soon.\nIf you have any questions or need assistance, feel free to contact us.",
 		"closing": "Best regards"
+	},
+	"contact": {
+		"title": "Beauty begins with a connection",
+		"email": "Email",
+		"emailPlaceholder": "your@email.com",
+		"message": "Message",
+		"messagePlaceholder": "Write your message here...",
+		"submit": "Send Message",
+		"roundText": "Contact Me",
+		"toast": {
+			"title": "Message Sent",
+			"message": "Thank you for your message. We will get in touch with you soon."
+		}
 	}
 }

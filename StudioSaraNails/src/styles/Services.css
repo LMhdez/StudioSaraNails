@@ -11,7 +11,7 @@
 	@apply text-2xl font-bold;
 }
 
-.custom-shape-divider-bottom-1754796570 {
+.services-page > .custom-shape-divider-bottom-1754796570 {
 	@apply static w-full overflow-hidden rotate-180;
 	line-height: 0;
 }

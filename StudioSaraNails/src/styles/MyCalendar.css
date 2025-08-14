@@ -7,7 +7,7 @@
 }
 .sx__date-picker__day-name,
 .sx__month-agenda-day-names,
-.sx__week-grid__date>div {
+.sx__week-grid__date > div {
 	@apply text-black;
 }
 .sx-react-calendar-wrapper {
@@ -38,19 +38,18 @@
 	justify-content: space-evenly;
 }
 
-.sx__month-grid-day__header-date.sx__is-today{
+.sx__month-grid-day__header-date.sx__is-today {
 	background-color: var(--color-hover);
 }
 
-.sx__month-agenda-day.sx__sunday, button.sx__month-agenda-day:disabled {
-	background-image:
-					"repeating-linear-gradient(45deg, #ccc, #ccc 5px, transparent 5px, transparent 10px)";
-				opacity: 0.3;
+.sx__month-agenda-day.sx__sunday,
+button.sx__month-agenda-day:disabled {
+	background-image: "repeating-linear-gradient(45deg, #ccc, #ccc 5px, transparent 5px, transparent 10px)";
+	opacity: 0.3;
 }
 
-
-
-
-.sx__week-grid__date.sx__sunday>div, .sx__sunday>.sx__month-grid-day__header, .sx__month-grid-background-event + .sx__month-grid-day__header {
-	color: var(--sx-color-neutral)!important;
+.sx__week-grid__date.sx__sunday > div,
+.sx__sunday > .sx__month-grid-day__header,
+.sx__month-grid-background-event + .sx__month-grid-day__header {
+	color: var(--sx-color-neutral) !important;
 }
