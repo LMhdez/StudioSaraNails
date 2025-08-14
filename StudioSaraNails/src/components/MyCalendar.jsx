@@ -174,7 +174,7 @@ export default function MyCalendar({ role = "client" }) {
 		);
 
 		// Verificar solapamiento
-		const isConflict = events.some((ev) => {
+		const isConflict = eventsService.getAll().some((ev) => {
 			return ev.start < endDateTime && ev.end > startDateTime;
 		});
 
@@ -310,6 +310,15 @@ export default function MyCalendar({ role = "client" }) {
 	const scrollController = createScrollControllerPlugin({
 		initialScroll: "08:00",
 	});
+
+	function parseScheduleX(dateStr) {
+		// dateStr = "2025-08-19 15:00"
+		const [datePart, timePart] = dateStr.split(" ");
+		const [year, month, day] = datePart.split("-").map(Number);
+		const [hour, minute] = timePart.split(":").map(Number);
+		return new Date(year, month - 1, day, hour, minute);
+	}
+
 	// Inicializar el calendario con hook directamente en el componente (no en useMemo)
 	const calendarApp = useCalendarApp({
 		calendars,
@@ -363,19 +372,45 @@ export default function MyCalendar({ role = "client" }) {
 			onClickDateTime(dateTime, e) {
 				console.log("click on", dateTime);
 
+				// Ignorar clicks en eventos de fondo
 				if (e.target.className === "sx__time-grid-background-event") {
 					console.log("click on background event", dateTime);
 					return;
 				}
-				const date = new Date(dateTime);
 
-				// Forzar minutos y segundos a 0
+				// Redondear a la hora
+				const date = new Date(dateTime);
 				date.setMinutes(0, 0, 0);
 
-				// Volver a formatear a "yyyy-MM-dd HH:mm"
-				const roundedDateTime = format(date, "yyyy-MM-dd HH:mm");
+				const newEventStart = date;
+				const newEventEnd = addHours(date, 4);
+				console.log("nuevo evento", newEventStart, newEventEnd);
 
-				setSelectedSlot({ dateTime: roundedDateTime, event: e });
+				
+				
+				const conflict = eventsService.getAll().some((ev) => {
+					const evStart = parseScheduleX(ev.start);
+					const evEnd = parseScheduleX(ev.end);
+					console.log(ev);
+					
+					return newEventStart < evEnd && newEventEnd > evStart;
+				});
+
+
+				if (conflict) {
+					console.log(
+						"Conflicto detectado: el nuevo evento se solapa con otro."
+					);
+					return;
+				}
+				console.log("No hay conflicto, creando evento");
+
+				// Mostrar popup si no hay conflicto
+				const roundedDateTimeStr = format(
+					newEventStart,
+					"yyyy-MM-dd HH:mm"
+				);
+				setSelectedSlot({ dateTime: roundedDateTimeStr, event: e });
 				setShowAppointmentPopup(true);
 			},
 		},
