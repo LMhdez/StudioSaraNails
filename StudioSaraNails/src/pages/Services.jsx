@@ -1,57 +1,16 @@
+// src/pages/ServicesPage.jsx
+import { useServices } from "../contexts/ServicesContext";
 import TopBar from "../components/TopBar";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import "../i18n";
-import "../styles/Services.css";
-
-import WaveDivider from "../components/WaveDivider";
-
 import ServiceCard from "../components/ServiceCard";
-import supabase from "../supabaseClient";
-import { Navigate, useNavigate } from "react-router-dom";
+import WaveDivider from "../components/WaveDivider";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import "../styles/Services.css";
 
 export default function ServicesPage() {
 	const navigate = useNavigate();
-	const { t, i18n } = useTranslation();
-	const [servicesObject, setServicesObject] = useState([]);
-
-	useEffect(() => {
-		const fetchServices = async () => {
-			const { data, error } = await supabase
-				.from("service_categories")
-				.select(
-					`
-					id,
-					name_es,
-					name_en,
-					services (
-						id,
-						title_es,
-						title_en,
-						description_es,
-						description_en,
-						price,
-						image_url
-					)
-				`
-				)
-				.eq("active", true);
-
-			if (error) {
-				console.error("Error fetching services:", error);
-				return;
-			}
-
-			const sortedData = (data || []).map((cat) => ({
-				...cat,
-				services: cat.services.sort((a, b) => a.id - b.id),
-			}));
-
-			setServicesObject(sortedData);
-		};
-
-		fetchServices();
-	}, [i18n.language]);
+	const { i18n } = useTranslation();
+	const servicesObject = useServices();
 
 	return (
 		<>
