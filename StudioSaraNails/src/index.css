@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
-
-
 
 :root {
 	font-family: "Lexend", sans-serif;
@@ -20,9 +18,14 @@
 	--duration-medium: 300ms;
 
 	background-color: whitesmoke;
-	
-/*
+
+	/*
 	max-width: 1280px;
 	margin: 0 auto;
 	padding: 2rem;*/
+}
+
+html,
+body {
+	scroll-behavior: smooth;
 }
