@@ -8,17 +8,27 @@ import "../styles/AppointmentForm.css";
 import { useTranslation } from "react-i18next";
 import "../i18n";
 import CustomSelect from "./CustomSelect.jsx";
-import supabase from "../supabaseClient"; // importa tu cliente Supabase
+import supabase from "../supabaseClient";
 import { Link } from "react-router-dom";
+import TrashIcon from "../assets/TrashIcon.jsx";
 
 const venezuelaPhoneRegex = /^(0(2[0-9]{2}|4[0-9]{2}))[0-9]{7}$/;
 
-export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
+export default function AppointmentForm({
+	dateTime,
+	onSubmit,
+	onClose,
+	isEditMode = false,
+	eventId,
+	handleDelete
+}) {
 	const { t, i18n } = useTranslation();
 	const modalRef = useRef(null);
 	const [serviceOptions, setServiceOptions] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [appointmentDate, setAppointmentDate] = useState(null);
 
-	// Esquema yup con traducción dinámica
+	// Yup schema (only used in create mode)
 	const schema = yup.object({
 		name: yup
 			.string()
@@ -35,7 +45,7 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		service: yup.string().required(t("form.serviceRequired")),
 	});
 
-	// Detectar click fuera para cerrar modal
+	// Detect click outside to close modal
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -54,9 +64,16 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		handleSubmit,
 		formState: { errors },
 		reset,
+		setValue,
 	} = useForm({
-		resolver: yupResolver(schema),
-		defaultValues: { name: "", phone: "", email: "", service: "" },
+		resolver: !isEditMode ? yupResolver(schema) : undefined,
+		defaultValues: {
+			name: "",
+			phone: "",
+			email: "",
+			service: "",
+			duration_hours: 1,
+		},
 	});
 
 	const {
@@ -66,16 +83,16 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		control,
 	});
 
-	// Fetch dinámico de categorías con precios
+	// Fetch categories for create mode
 	useEffect(() => {
 		const fetchServices = async () => {
 			const { data, error } = await supabase.from("service_categories")
 				.select(`
-					id,
-					name_es,
-					name_en,
-					services(price)
-					`);
+          id,
+          name_es,
+          name_en,
+          services(price)
+        `);
 
 			if (error) {
 				console.error("Error fetching services:", error);
@@ -97,8 +114,82 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		fetchServices();
 	}, [i18n.language]);
 
-	const handleFormSubmit = (data) => {
-		if (onSubmit({ ...data, dateTime })) {
+	// Fetch event if edit mode
+	useEffect(() => {
+		if (!isEditMode || !eventId) return;
+
+		const fetchEvent = async () => {
+			setLoading(true);
+			const { data, error } = await supabase
+				.from("appointments")
+				.select("*")
+				.eq("id", eventId)
+				.single();
+
+			if (error) {
+				console.error("Error fetching event:", error);
+				setLoading(false);
+				return;
+			}
+
+			setValue("name", data.customer_name);
+			setValue("phone", data.customer_phone);
+			setValue("email", data.customer_email);
+			setValue("service", data.service_type);
+			setValue("duration_hours", data.duration_hours);
+			setValue("status", data.status);
+
+			// Save full datetime for header
+			const fullDate = new Date(`${data.date}T${data.start_time}`);
+			setAppointmentDate(fullDate);
+
+			setLoading(false);
+		};
+
+		fetchEvent();
+	}, [isEditMode, eventId, setValue]);
+
+	const handleFormSubmit = async (formData) => {
+		if (isEditMode) {
+			// 1. Actualizamos en Supabase
+			const { data, error } = await supabase
+				.from("appointments")
+				.update({
+					duration_hours: formData.duration_hours,
+					status: "confirmed",
+				})
+				.eq("id", eventId)
+				.select("*")
+				.single();
+
+			if (error) {
+				toast.error("Error updating appointment");
+				return;
+			}
+
+			// 2. Calcular nuevo end basado en duration_hours
+			const start = new Date(`${data.date}T${data.start_time}`);
+			const end = new Date(start);
+			end.setHours(start.getHours() + Number(formData.duration_hours));
+
+			// 3. Construir objeto evento completo para Schedule-X
+			const updatedEvent = {
+				id: data.id,
+				title: `${data.customer_name} - ${data.service_type}`,
+				start: start.toISOString().slice(0, 16).replace("T", " "), // formato "YYYY-MM-DD HH:mm"
+				end: end.toISOString().slice(0, 16).replace("T", " "),
+				calendarId: "admin",
+			};
+
+			// 4. Pasar el evento a tu calendario
+			if (onSubmit({ ...updatedEvent })) {
+				toast.success(t("calendar.appointment_updated"));
+			}
+			onClose();
+			return;
+		}
+
+		if (onSubmit({ ...formData, dateTime })) {
 			toast.success(
 				<div className="mx-4">
 					<p className="font-semibold">{t("form.toast.title")}</p>
@@ -113,12 +204,26 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 		onClose();
 	};
 
+	if (loading) return <p>Loading...</p>;
+
 	return (
 		<div className="modal-overlay">
 			<div ref={modalRef} className="modal-container">
-				<button onClick={onClose} className="modal-close-button">
-					x
-				</button>
+				<div className="modal-header">
+					<button onClick={onClose} className="modal-close-button">
+						x
+					</button>
+					{isEditMode && (
+						<button
+							onClick={handleDelete}
+							className="modal-delete-button"
+							title={t("form.buttons.delete")}
+						>
+							<TrashIcon/>
+							{t("form.buttons.delete")}
+						</button>
+					)}
+				</div>
 
 				<form
 					onSubmit={handleSubmit(handleFormSubmit)}
@@ -126,8 +231,34 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 				>
 					<div className="dateLine">
 						{t("form.bookingFor")}{" "}
-						<strong>{format(dateTime, "yyyy-MM-dd HH:mm")}</strong>
+						<strong>
+							{isEditMode && appointmentDate
+								? format(appointmentDate, "yyyy-MM-dd HH:mm")
+								: !isEditMode && dateTime
+								? format(new Date(dateTime), "yyyy-MM-dd HH:mm")
+								: ""}
+						</strong>
 					</div>
+
+					{isEditMode && (
+						<div>
+							<label className="label">
+								{t("form.status_label")}
+							</label>
+							<input
+								{...register("status")}
+								className={`input ${
+									control._formValues.status === "confirmed"
+										? "input-confirmed"
+										: control._formValues.status ===
+										  "pending"
+										? "input-pending"
+										: ""
+								}`}
+								disabled
+							/>
+						</div>
+					)}
 
 					<div>
 						<label className="label">{t("form.nameLabel")}</label>
@@ -135,6 +266,7 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 							{...register("name")}
 							className="input"
 							placeholder={t("form.namePlaceholder")}
+							disabled={isEditMode}
 						/>
 						{errors.name && (
 							<p className="error-message">
@@ -145,11 +277,22 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 
 					<div>
 						<label className="label">{t("form.phoneLabel")}</label>
-						<input
-							{...register("phone")}
-							className="input"
-							placeholder={t("form.phonePlaceholder")}
-						/>
+						{isEditMode ? (
+							<Link
+								className="input wa-link"
+								href={`https://wa.me/${control._formValues.phone}`}
+								target="_blank"
+								rel="noreferrer"
+							>
+								{control._formValues.phone}
+							</Link>
+						) : (
+							<input
+								{...register("phone")}
+								className="input"
+								placeholder={t("form.phonePlaceholder")}
+							/>
+						)}
 						{errors.phone && (
 							<p className="error-message">
 								{errors.phone.message}
@@ -163,6 +306,7 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 							{...register("email")}
 							className="input"
 							placeholder={t("form.emailPlaceholder")}
+							disabled={isEditMode}
 						/>
 						{errors.email && (
 							<p className="error-message">
@@ -172,23 +316,50 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 					</div>
 
 					<div>
-						<Link className="link" to="/services">{t("form.viewCatalog")}</Link>
+						<Link className="link" to="/services">
+							{t("form.viewCatalog")}
+						</Link>
+
 						<label className="label">
 							{t("form.serviceLabel")}
 						</label>
 
-						<CustomSelect
-							options={serviceOptions}
-							value={serviceValue}
-							onChange={onServiceChange}
-							placeholder={t("form.servicePlaceholder")}
-						/>
+						{isEditMode ? (
+							<input
+								type="text"
+								{...register("service")}
+								className="input"
+								disabled
+							/>
+						) : (
+							<CustomSelect
+								options={serviceOptions}
+								value={serviceValue}
+								onChange={onServiceChange}
+								placeholder={t("form.servicePlaceholder")}
+							/>
+						)}
+
 						{errors.service && (
 							<p className="error-message">
 								{errors.service.message}
 							</p>
 						)}
 					</div>
+
+					{isEditMode && (
+						<div>
+							<label className="label">
+								{t("form.duration_label")}
+							</label>
+							<input
+								type="number"
+								{...register("duration_hours", { min: 1 })}
+								className="input"
+								placeholder="Duration in hours"
+							/>
+						</div>
+					)}
 
 					<div className="button-group">
 						<button
@@ -199,7 +370,9 @@ export default function AppointmentForm({ dateTime, onSubmit, onClose }) {
 							{t("form.buttons.cancel")}
 						</button>
 						<button type="submit" className="button-submit">
-							{t("form.buttons.submit")}
+							{isEditMode
+								? t("form.buttons.confirm")
+								: t("form.buttons.create")}
 						</button>
 					</div>
 				</form>

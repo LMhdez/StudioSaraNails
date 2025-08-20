@@ -2,7 +2,8 @@
 	"nav": {
 		"services": "Servicios",
 		"schedule": "Agenda",
-		"contact": "Contacto"
+		"contact": "Contacto",
+		"logout": "Cerrar sesión"
 	},
 
 	"home": {
@@ -15,10 +16,26 @@
 	},
 
 	"services": {
-		"soft-gel": "Soft gel",
-		"acrylic-system": "Uñas acrílicas",
-		"rubber-base-leveling": "Nivelación de rubber base",
-		"kapping": "Kapping"
+				"editTitle": "Editar servicio",
+		"titleEs": "Título (español)",
+		"titleEn": "Título (inglés)",
+		"descriptionEs": "Descripción (español)",
+		"descriptionEn": "Descripción (inglés)",
+		"price": "Precio",
+		"category": "Categoría",
+		"image": "Imagen",
+		"saving": "Guardando...",
+		"categoryRequired": "Por favor selecciona una categoría",
+		"loadError": "Error al cargar los datos del servicio.",
+		"updateError": "Error al actualizar el servicio.",
+		"updateSuccess": "Servicio actualizado con éxito.",
+		"uploadError": "Error al subir la imagen.",
+		"deleteConfirm": "¿Estás seguro de que deseas eliminar este servicio?",
+		"deleteError": "Error al eliminar el servicio.",
+		"deleteSuccess": "Servicio eliminado con éxito.",
+		"createSuccess": "Servicio creado con éxito.",
+		"createError": "Error al crear el servicio.",
+		"createTitle": "Crear Servicio"
 	},
 
 	"calendar": {
@@ -43,8 +60,10 @@
 		"date": "Fecha",
 		"time": "Hora",
 		"slotOccupied": "Este espacio ya está ocupado",
-		"newEvent": "Nueva cita creada"
+		"newEvent": "Nueva cita creada",
+		"appointment_updated": "Cita actualizada"
 	},
+
 	"form": {
 		"nameLabel": "Nombre",
 		"namePlaceholder": "Tu nombre",
@@ -62,17 +81,27 @@
 		"servicePlaceholder": "Selecciona un servicio",
 		"serviceRequired": "Por favor selecciona un servicio",
 		"messageRequired": "El mensaje es obligatorio",
+		"status_label": "Estado",
 		"buttons": {
 			"cancel": "Cancelar",
-			"submit": "Reservar cita"
+			"submit": "Reservar cita",
+			"confirm": "Confirmar cita",
+			"delete": "Eliminar",
+			"create": "Crear",
+			"save": "Guardar"
 		},
 		"bookingFor": "Reservando para:",
 		"toast": {
 			"title": "Gracias por reservar.",
 			"message1": "Tu solicitud está pendiente de confirmación por parte de la manicurista.",
-			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp."
+			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp.",
+			"error_delete": "Error al eliminar la cita.",
+			"deleted": "Cita eliminada."
 		},
-		"viewCatalog": "Ver catalogo de servicios"
+		"viewCatalog": "Ver catalogo de servicios",
+		"duration_label": "Duración",
+		"select": "Seleccione una opción"
+
 	},
 
 	"email": {
@@ -85,8 +114,11 @@
 		"label_start_time": "Hora de inicio",
 		"label_duration": "Duración",
 		"footer_message": "Pronto te contactaremos por WhatsApp.\nSi tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.",
-		"closing": "Saludos"
+		"closing": "Saludos",
+		"confirmation_subject": "Cita Confirmada",
+		"confirmation_footer_message": "Tu cita ha sido confirmada. ¡Esperamos verte pronto!"
 	},
+
 	"contact": {
 		"title": "La belleza empieza con un contacto",
 		"email": "Correo electrónico",
@@ -99,5 +131,79 @@
 			"title": "Mensaje enviado",
 			"message": "Gracias por tu mensaje. Nos pondremos en contacto contigo pronto."
 		}
-	}
+	},
+
+	"login": {
+		"emailLabel": "Correo",
+		"emailPlaceholder": "ejemplo@email.com",
+		"emailRequired": "El correo es obligatorio",
+		"emailInvalid": "Correo inválido",
+		"passwordLabel": "Contraseña",
+		"passwordPlaceholder": "********",
+		"passwordRequired": "La contraseña es obligatoria",
+		"submit": "Entrar",
+		"error": "Error al iniciar sesión",
+		"success": "¡Bienvenido al panel de administración!",
+		"forgotPassword": "¿Olvidaste tu contraseña?"
+	},
+	"forgotPassword": {
+		"title": "¿Olvidaste tu contraseña?",
+		"description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecerla.",
+		"emailLabel": "Correo electrónico",
+		"emailPlaceholder": "tu@correo.com",
+		"emailRequired": "El correo es obligatorio",
+		"emailInvalid": "Correo inválido",
+		"submit": "Enviar enlace",
+		"success": "Revisa tu correo electrónico para restablecer tu contraseña.",
+		"error": "No se pudo enviar el enlace. Intenta nuevamente."
+	},
+	"resetPassword": {
+		"title": "Restablecer contraseña",
+		"description": "Ingresa tu nueva contraseña para continuar.",
+		"passwordLabel": "Nueva contraseña",
+		"passwordPlaceholder": "********",
+		"passwordRequired": "La contraseña es obligatoria",
+		"passwordMin": "Debe tener al menos 6 caracteres",
+		"confirmLabel": "Confirmar contraseña",
+		"confirmPlaceholder": "********",
+		"confirmRequired": "Debes confirmar la contraseña",
+		"confirmMatch": "Las contraseñas no coinciden",
+		"submit": "Actualizar contraseña",
+		"success": "Tu contraseña ha sido actualizada.",
+		"error": "No se pudo actualizar la contraseña. Intenta nuevamente."
+	},
+	"admin": {
+		"dashboard": "Tablero",
+		"stats": {
+			"pending": "Pendientes",
+			"confirmed": "Confirmadas",
+			"today": "Hoy",
+			"tomorrow": "Mañana",
+			"thisWeek": "Esta Semana",
+			"thisMonth": "Este Mes",
+			"lastWeek": "Última Semana",
+			"lastMonth": "Último Mes",
+			"allPast": "Todas las Pasadas",
+			"yesterday": "Ayer"
+		},
+		"future": "Citas Futuras",
+		"past": "Citas Pasadas"
+	},
+	"categories": {
+		"nameRequired": "El nombre es obligatorio",
+		"nameEs": "Nombre (Español)",
+		"nameEn": "Nombre (Inglés)",
+		"createSuccess": "Categoría creada con éxito",
+		"createError": "Error al crear la categoría",
+		"deleteConfirm": "¿Estás seguro de que deseas eliminar la categoría '{{categoryName}}'?",
+		"deleteError": "Error al eliminar la categoría",
+		"deleteSuccess": "Categoría eliminada con éxito",
+		"createTitle": "Crear Categoría",
+		"active": "Activo",
+		"inactive": "Inactivo",
+		"activated": "Categoría activada",
+		"deactivated": "Categoría desactivada",
+		"updateError": "Error al actualizar el estado de la categoría"
+	},
+	"loading": "Cargando..."
 }

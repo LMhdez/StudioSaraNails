@@ -1,0 +1,16 @@
+@reference "../index.css";
+
+
+.login-form-div{
+    height: 70vh;
+    @apply flex items-center justify-center;
+}
+
+.login-page > .custom-shape-divider-bottom-1754796570 {
+	position:fixed;
+	bottom: 0;
+	z-index: -300;
+}
+.login-page {
+	@apply bg-gradient-to-b from-pink-50 to-transparent;
+}

@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+
+.service-edit-page > .custom-shape-divider-bottom-1754796570 {
+	position: relative;
+	z-index: -300;
+}
+.form-title {
+    @apply text-2xl font-bold mt-4;
+}
+.service-edit-page {
+    @apply flex flex-col items-center justify-center bg-gradient-to-b from-pink-50 to-transparent gap-4;
+}
+
+.button-delete {
+	@apply px-4 py-2 border rounded hover:bg-gray-100 transition;
+}

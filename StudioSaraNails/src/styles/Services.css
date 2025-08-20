@@ -15,3 +15,88 @@
 	@apply static w-full overflow-hidden rotate-180;
 	line-height: 0;
 }
+
+.add-category-button {
+	@apply px-4 py-2 rounded-lg  font-semibold transition transform hover:scale-105;
+	background-color: #fed6e3;
+}
+
+.add-category-button:disabled {
+	@apply opacity-50 cursor-not-allowed;
+}
+
+.delete-button {
+	@apply px-3 py-1 rounded-lg font-semibold transition transform hover:scale-105;
+	background-color: #a6c1ee;
+}
+
+.delete-button:disabled {
+	@apply opacity-50 cursor-not-allowed;
+}
+
+.category-section > h2 {
+	@apply flex  items-center justify-evenly w-full;
+}
+
+.services-page > .modal-overlay > .button-submit {
+	@apply text-white;
+}
+.services-page {
+	@apply bg-gradient-to-b from-pink-50 to-transparent;
+}
+.admin-controls {
+	@apply flex flex-row gap-12 m-8;
+}
+.images-prompt {
+	@apply flex flex-col gap-4;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 20px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	transition: 0.4s;
+	border-radius: 20px;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 16px;
+	width: 16px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	transition: 0.4s;
+	border-radius: 50%;
+}
+
+/* When checkbox inside .switch is checked, style the sibling .slider */
+.switch input:checked + .slider {
+	background-color: var(--color-accent);
+}
+
+.switch input:checked + .slider:before {
+	transform: translateX(20px);
+}
+
+.category-controls {
+	@apply flex items-center gap-4;
+}

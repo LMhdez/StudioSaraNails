@@ -13,6 +13,12 @@
 	@apply shadow-md;
 }
 
+.mobile-logout-container {
+	display: flex;
+	justify-content: flex-end; /* push button to right */
+	padding: 0.5rem 1rem; /* optional spacing */
+}
+
 /* Contenedor principal */
 .topbar-nav .container {
 	@apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4;

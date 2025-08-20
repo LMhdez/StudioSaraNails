@@ -2,7 +2,7 @@
 
 /* Contact.css */
 .contact-page {
-	@apply bg-gradient-to-b from-pink-50 to-white;
+	@apply bg-gradient-to-b from-pink-50 to-transparent;
 }
 
 .contact-main {

@@ -53,3 +53,4 @@ button.sx__month-agenda-day:disabled {
 .sx__month-grid-background-event + .sx__month-grid-day__header {
 	color: var(--sx-color-neutral) !important;
 }
+

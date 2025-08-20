@@ -2,7 +2,8 @@
 	"nav": {
 		"services": "Services",
 		"schedule": "Schedule",
-		"contact": "Contact"
+		"contact": "Contact",
+		"logout": "Logout"
 	},
 
 	"home": {
@@ -18,7 +19,27 @@
 		"soft-gel": "Soft Gel",
 		"acrylic-system": "Acrylic System",
 		"rubber-base-leveling": "Rubber Base Leveling",
-		"kapping": "Kapping"
+		"kapping": "Kapping",
+		"editTitle": "Edit Service",
+		"titleEs": "Title (Spanish)",
+		"titleEn": "Title (English)",
+		"descriptionEs": "Description (Spanish)",
+		"descriptionEn": "Description (English)",
+		"price": "Price",
+		"category": "Category",
+		"image": "Image",
+		"saving": "Saving...",
+		"categoryRequired": "Please select a category",
+		"loadError": "Failed to load service data.",
+		"updateError": "Failed to update service.",
+		"updateSuccess": "Service updated successfully.",
+		"uploadError": "Failed to upload image.",
+		"deleteConfirm": "Are you sure you want to delete this service?",
+		"deleteError": "Failed to delete service.",
+		"deleteSuccess": "Service deleted successfully.",
+		"createSuccess": "Service created successfully.",
+		"createError": "Failed to create service.",
+		"createTitle": "Create Service"
 	},
 
 	"calendar": {
@@ -43,7 +64,8 @@
 		"date": "Date",
 		"time": "Time",
 		"slotOccupied": "This slot is occupied",
-		"newEvent": "New appointment created"
+		"newEvent": "New appointment created",
+		"appointment_updated": "Appointment updated"
 	},
 	"form": {
 		"nameLabel": "Name",
@@ -62,17 +84,26 @@
 		"servicePlaceholder": "Select a service",
 		"serviceRequired": "Please select a service",
 		"messageRequired": "Message is required",
+		"status_label": "Status",
 		"buttons": {
 			"cancel": "Cancel",
-			"submit": "Book appointment"
+			"submit": "Book appointment",
+			"confirm": "Confirm appointment",
+			"delete": "Delete",
+			"create": "Create",
+			"save": "Save"
 		},
 		"bookingFor": "Booking for:",
 		"toast": {
 			"title": "Thanks for booking.",
 			"message1": "Your request is pending confirmation from the manicurist.",
-			"message2": "You will receive an email and we will contact you soon via WhatsApp."
+			"message2": "You will receive an email and we will contact you soon via WhatsApp.",
+			"error_delete": "Error deleting appointment.",
+			"deleted": "Appointment deleted."
 		},
-		"viewCatalog": "View services catalog"
+		"viewCatalog": "View services catalog",
+		"duration_label": "Duration",
+		"select": "Select one option"
 	},
 	"email": {
 		"subject": "Appointment request received",
@@ -84,7 +115,9 @@
 		"label_start_time": "Start Time",
 		"label_duration": "Duration",
 		"footer_message": "You will be contacted via WhatsApp soon.\nIf you have any questions or need assistance, feel free to contact us.",
-		"closing": "Best regards"
+		"closing": "Best regards",
+		"confirmation_subject": "Appointment Confirmed",
+		"confirmation_footer_message": "Your appointment has been confirmed. We look forward to seeing you!"
 	},
 	"contact": {
 		"title": "Beauty begins with a connection",
@@ -98,5 +131,79 @@
 			"title": "Message Sent",
 			"message": "Thank you for your message. We will get in touch with you soon."
 		}
-	}
+	},
+	"login": {
+		"emailLabel": "Email",
+		"emailPlaceholder": "example@email.com",
+		"emailRequired": "Email is required",
+		"emailInvalid": "Invalid email",
+		"passwordLabel": "Password",
+		"passwordPlaceholder": "********",
+		"passwordRequired": "Password is required",
+		"submit": "Login",
+		"error": "Login failed",
+		"success": "Welcome to the admin panel!",
+		"forgotPassword": "Forgot your password?"
+	},
+	"forgotPassword": {
+		"title": "Forgot your password?",
+		"description": "Enter your email and we'll send you a reset link.",
+		"emailLabel": "Email",
+		"emailPlaceholder": "your@email.com",
+		"emailRequired": "Email is required",
+		"emailInvalid": "Invalid email",
+		"submit": "Send reset link",
+		"success": "Check your email to reset your password.",
+		"error": "Could not send reset link. Please try again."
+	},
+	"resetPassword": {
+		"title": "Reset Password",
+		"description": "Enter your new password to continue.",
+		"passwordLabel": "New Password",
+		"passwordPlaceholder": "********",
+		"passwordRequired": "Password is required",
+		"passwordMin": "Must be at least 6 characters",
+		"confirmLabel": "Confirm Password",
+		"confirmPlaceholder": "********",
+		"confirmRequired": "You must confirm the password",
+		"confirmMatch": "Passwords do not match",
+		"submit": "Update Password",
+		"success": "Your password has been updated.",
+		"error": "Could not update password. Please try again."
+	},
+
+	"admin": {
+		"dashboard": "Dashboard",
+		"stats": {
+			"pending": "Pending",
+			"confirmed": "Confirmed",
+			"today": "Today",
+			"tomorrow": "Tomorrow",
+			"thisWeek": "This Week",
+			"thisMonth": "This Month",
+			"lastWeek": "Last Week",
+			"lastMonth": "Last Month",
+			"allPast": "All Past",
+			"yesterday": "Yesterday"
+		},
+		"future": "Future Appointments",
+		"past": "Past Appointments"
+	},
+	"categories": {
+		"nameRequired": "Name is required",
+		"nameEs": "Name (Spanish)",
+		"nameEn": "Name (English)",
+		"createSuccess": "Category created successfully",
+		"createError": "Error creating category",
+		"deleteConfirm": "Are you sure you want to delete category '{{categoryName}}'?",
+		"deleteError": "Error deleting category",
+		"deleteSuccess": "Category deleted successfully",
+		"createTitle": "Create Category",
+		"active": "Active",
+		"inactive": "Inactive",
+		"activated": "Category activated",
+		"deactivated": "Category deactivated",
+		"updateError": "Failed to update category status"
+	},
+	"loading": "Loading..."
 }

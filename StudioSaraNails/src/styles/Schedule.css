@@ -1,9 +1,11 @@
+@reference "../index.css";
+
 .schedule-content {
-	@apply flex flex-col items-center justify-center;
+	@apply flex flex-col items-center justify-center bg-gradient-to-b from-pink-50 to-transparent;
 }
 
 .schedule-content > .custom-shape-divider-bottom-1754796570 {
-	position:fixed;
+	position: fixed;
 	bottom: 0;
 	z-index: -300;
 }

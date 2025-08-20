@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "/logoSaraNails-removebg-preview.png";
 import "../i18n";
 import LanguageSelector from "./LanguageSelector";
 import "../styles/TopBar.css";
+import { useAuth } from "../contexts/UserContext";
 
 export default function TopBar() {
 	const { t, i18n } = useTranslation();
+	const { user, logout } = useAuth();
+	const navigate = useNavigate();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [menuItems, setMenuItems] = useState([]);
 
@@ -26,36 +29,55 @@ export default function TopBar() {
 		}
 	}, [i18n.language]);
 
+	const handleLogoClick = () => {
+		if (user) {
+			navigate("/admin"); // logged in → admin dashboard
+		} else {
+			navigate("/"); // not logged in → home
+		}
+	};
+
 	return (
 		<nav className="topbar-nav">
 			<div className="container">
 				<div className="content">
 					{/* Logo */}
-					<div className="logo-link">
-						<NavLink to="/">
-							<img src={logo} alt="Logo Saranails" />
-						</NavLink>
+					<div
+						className="logo-link"
+						onClick={handleLogoClick}
+						style={{ cursor: "pointer" }}
+					>
+						<img src={logo} alt="Logo Saranails" />
 						<h1 className="hidden">Studio Sara Nails</h1>
 					</div>
 
 					{/* Desktop menu */}
 					<div className="desktop-menu">
-						{menuItems.map((key) => (
-							<NavLink
-								key={key}
-								to={`/${key}`} // rota baseada na key
-								className={({ isActive }) =>
-									isActive ? "active-link" : ""
-								}
-							>
-								{t(`nav.${key}`)}
-							</NavLink>
-						))}
+						{menuItems
+							.filter((key) => key !== "logout")
+							.map((key) => (
+								<NavLink
+									key={key}
+									to={`/${key}`}
+									className={({ isActive }) =>
+										isActive ? "active-link" : ""
+									}
+								>
+									{t(`nav.${key}`)}
+								</NavLink>
+							))}
 
 						<LanguageSelector
 							currentLang={i18n.language}
 							onChange={(lng) => i18n.changeLanguage(lng)}
 						/>
+
+						{/* Show Logout if admin is logged in */}
+						{user && (
+							<button className="logout-button" onClick={logout}>
+								{t("nav.logout")}
+							</button>
+						)}
 					</div>
 
 					{/* Mobile menu button */}
@@ -114,22 +136,32 @@ export default function TopBar() {
 				className={`mobile-menu ${mobileMenuOpen ? "open" : "closed"}`}
 			>
 				<div className="menu-links">
-					{menuItems.map((key) => (
-						<NavLink
-							key={key}
-							to={`/${key}`}
-							className={({ isActive }) =>
-								isActive ? "active-link" : ""
-							}
-						>
-							{t(`nav.${key}`)}
-						</NavLink>
-					))}
+					{menuItems
+						.filter((key) => key !== "logout")
+						.map((key) => (
+							<NavLink
+								key={key}
+								to={`/${key}`}
+								className={({ isActive }) =>
+									isActive ? "active-link" : ""
+								}
+							>
+								{t(`nav.${key}`)}
+							</NavLink>
+						))}
 
 					<LanguageSelector
 						currentLang={i18n.language}
 						onChange={(lng) => i18n.changeLanguage(lng)}
 					/>
+
+					{user && (
+						<div className="mobile-logout-container">
+							<button className="logout-button" onClick={logout}>
+								{t("nav.logout")}
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 		</nav>

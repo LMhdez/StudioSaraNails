@@ -11,3 +11,7 @@
 .home-title-div h2 > .last-word {
 	color: var(--color-accent);
 }
+
+.home-page {
+	@apply bg-gradient-to-b from-pink-50 to-transparent;
+}

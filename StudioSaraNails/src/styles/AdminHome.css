@@ -1,0 +1,86 @@
+@reference "../index.css";
+
+/* Contenedor general del dashboard */
+.dashboard-container {
+	@apply flex flex-col p-8;
+}
+
+/* Título principal */
+.dashboard-title {
+	@apply text-3xl font-bold mb-4 text-center;
+}
+
+.section-title {
+	@apply text-xl font-bold my-4 text-left;
+	border-left: 4px solid #6b5b95; /* barra decorativa */
+	padding-left: 0.5rem;
+}
+
+/* Grilla de estadísticas */
+.stats-grid {
+	@apply grid gap-6;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	margin-top: 1rem;
+	overflow-x: auto;
+	padding-bottom: 1rem;
+}
+
+/* Card de estadísticas */
+.stat-card {
+	@apply rounded-2xl p-6 flex items-center gap-4 min-h-[100px] transition-transform duration-300 ease-in-out;
+}
+
+/* Hover effect */
+.stat-card:hover {
+	@apply transform -translate-y-1 shadow-lg;
+}
+
+/* Texto de la card */
+.stat-card .title {
+	@apply font-semibold text-sm;
+}
+
+.stat-card .value {
+	@apply font-bold text-xl;
+}
+
+/* Colores pastel para StatCards */
+.stat-pending {
+	background-color: #f4e1f0;
+}
+.stat-confirmed {
+	background-color: #d1f0e0;
+}
+.stat-today {
+	background-color: #fff0d1;
+}
+.stat-tomorrow {
+	background-color: #d1eaff;
+}
+.stat-week {
+	background-color: #f0d1e8;
+}
+.stat-month {
+	background-color: #e0f0d1;
+}
+
+/* Iconos dentro de las cards */
+.stat-card .icon {
+	@apply text-2xl;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+	.dashboard-title {
+		@apply text-2xl;
+	}
+
+	.stats-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.admin-home > .custom-shape-divider-bottom-1754796570 {
+	@apply fixed bottom-0;
+	z-index: -300;
+}

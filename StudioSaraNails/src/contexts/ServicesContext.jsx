@@ -1,24 +1,28 @@
 // src/contexts/ServicesContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import supabase from "../supabaseClient";
+import { useAuth } from "./UserContext";
 
 const ServicesContext = createContext([]);
 
 export const useServices = () => useContext(ServicesContext);
 
 export function ServicesProvider({ children, language }) {
-  const [servicesObject, setServicesObject] = useState([]);
+	const [servicesObject, setServicesObject] = useState([]);
+	const { user } = useAuth();
 
-  useEffect(() => {
-    let channel;
+	useEffect(() => {
+		let channel;
 
-    const fetchServices = async () => {
-      const { data, error } = await supabase
-        .from("service_categories")
-        .select(`
+		const fetchServices = async () => {
+			let query = supabase
+				.from("service_categories")
+				.select(
+					`
           id,
           name_es,
           name_en,
+          active,
           services (
             id,
             title_es,
@@ -28,47 +32,50 @@ export function ServicesProvider({ children, language }) {
             price,
             image_url
           )
-        `)
-        .eq("active", true);
+        `
+				)
+				.order("id", { ascending: true });
 
-      if (error) {
-        console.error("Error fetching services:", error);
-        return;
-      }
+			// If no user, only fetch active categories
+			if (!user) {
+				query = query.eq("active", true);
+			}
 
-      const sortedData = (data || []).map((cat) => ({
-        ...cat,
-        services: cat.services.sort((a, b) => a.id - b.id),
-      }));
+			const { data, error } = await query;
 
-      setServicesObject(sortedData);
-    };
+			if (error) {
+				console.error("Error fetching services:", error);
+				return;
+			}
 
-    fetchServices();
+			setServicesObject(data || []);
+		};
 
-    // Realtime subscription
-    channel = supabase
-      .channel("services-changes")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "service_categories" },
-        () => fetchServices()
-      )
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "services" },
-        () => fetchServices()
-      )
-      .subscribe();
+		fetchServices();
 
-    return () => {
-      if (channel) supabase.removeChannel(channel);
-    };
-  }, [language]);
+		// Realtime subscription
+		channel = supabase
+			.channel("services-changes")
+			.on(
+				"postgres_changes",
+				{ event: "*", schema: "public", table: "service_categories" },
+				() => fetchServices()
+			)
+			.on(
+				"postgres_changes",
+				{ event: "*", schema: "public", table: "services" },
+				() => fetchServices()
+			)
+			.subscribe();
 
-  return (
-    <ServicesContext.Provider value={servicesObject}>
-      {children}
-    </ServicesContext.Provider>
-  );
+		return () => {
+			if (channel) supabase.removeChannel(channel);
+		};
+	}, [language, user]);
+
+	return (
+		<ServicesContext.Provider value={servicesObject}>
+			{children}
+		</ServicesContext.Provider>
+	);
 }

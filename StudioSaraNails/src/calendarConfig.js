@@ -11,12 +11,13 @@ export const calendars = {
 			container: "#260926", // fondo oscuro
 			onContainer: "#ffffff", // texto blanco sobre oscuro
 		},
+		
 	},
 	admin: {
 		colorName: "admin",
 		lightColors: {
 			main: "#4c114b", // hover como tono principal admin
-			container: "#f8f5f8", // fondo suave claro
+			container: "#E9E2E9", // fondo suave claro
 			onContainer: "#260926", // texto oscuro
 		},
 		darkColors: {
@@ -24,5 +25,6 @@ export const calendars = {
 			container: "#260926", // fondo oscuro
 			onContainer: "#ffffff", // texto blanco sobre oscuro
 		},
+		
 	},
 };

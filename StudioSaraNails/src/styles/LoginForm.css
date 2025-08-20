@@ -1,0 +1,47 @@
+@reference "../index.css";
+
+
+.login-form {
+
+	@apply bg-white/30 rounded-lg shadow-lg p-6 w-full max-w-md relative space-y-4;
+
+}
+/* Etiquetas de los inputs */
+.label {
+	@apply block mb-1 font-semibold;
+}
+
+/* Inputs y selects */
+.input,
+.select {
+	@apply w-full rounded px-3 py-2 border  bg-transparent 
+    placeholder-gray-400 focus:outline-none focus:ring-2;
+	border-color: var(--color-accent);
+}
+
+.input:focus,
+.select:focus {
+	outline-color: var(--color-accent);
+	border-color: var(--color-accent);
+	box-shadow: 0 0 0 2px var(--color-hover);
+}
+
+/* Mensajes de error */
+.error-message {
+	@apply text-red-500 text-sm mt-1;
+}
+
+
+.forgot-password-div > a{
+	@apply underline text-xs;
+	color: var(--color-hover);
+}
+
+.button-container {
+	@apply flex justify-center md:justify-start;
+}
+
+.button-submit {
+	@apply px-4 py-2 rounded bg-[var(--color-hover)] text-white font-semibold
+    hover:bg-[var(--color-accent)] transition;
+}

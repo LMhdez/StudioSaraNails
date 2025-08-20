@@ -38,6 +38,9 @@ export default function MyCalendar({ role = "client" }) {
 	const [showAppointmentPopup, setShowAppointmentPopup] = useState(false);
 	const [selectedSlot, setSelectedSlot] = useState(null);
 
+	const [selectedEventId, setSelectedEventId] = useState(null);
+	const [editAppointmentPopup, setEditAppointmentPopup] = useState(false);
+
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 	const todayStr = format(today, "yyyy-MM-dd");
@@ -94,9 +97,14 @@ export default function MyCalendar({ role = "client" }) {
 			);
 			const endDate = addHours(startDate, appointment.duration_hours);
 
+			const title =
+				role === "admin"
+					? `[${appointment.status}] ${appointment.customer_name} - ${appointment.service_type}`
+					: t("calendar.busy") || "Ocupado";
+
 			return {
 				id: appointment.id,
-				title: t("calendar.busy") || "Ocupado",
+				title,
 				start: format(startDate, "yyyy-MM-dd HH:mm"),
 				end: format(endDate, "yyyy-MM-dd HH:mm"),
 				calendarId: role,
@@ -148,6 +156,8 @@ export default function MyCalendar({ role = "client" }) {
 	];
 
 	useEffect(() => {
+		if (role === "admin") return; // El admin no necesita deshabilitar domingos
+
 		const observer = new MutationObserver(() => {
 			const buttons = document.querySelectorAll(
 				"button.sx__month-agenda-day.sx__sunday"
@@ -306,6 +316,62 @@ export default function MyCalendar({ role = "client" }) {
 		return true;
 	};
 
+	const handleEventEdit = async (eventSX) => {
+		eventsService.update(eventSX);
+		// Enviar email de confirmación al cliente
+		try {
+			await emailjs.send(
+				import.meta.env.VITE_EMAILJS_SERVICE_ID,
+				import.meta.env.VITE_EMAILJS_CONFIRMATION_TEMPLATE_ID, // nuevo template para confirmación
+				{
+					to_email: eventSX.customer_email,
+					subject: t("email.confirmation_subject"), // título específico de confirmación
+					label_name: t("email.label_name"),
+					label_email: t("email.label_email"),
+					label_phone: t("email.label_phone"),
+					label_service: t("email.label_service"),
+					label_date: t("email.label_date"),
+					label_start_time: t("email.label_start_time"),
+					label_duration: t("email.label_duration"),
+					footer_message: t("email.confirmation_footer_message"), // mensaje específico para confirmación
+					closing: t("email.closing"),
+
+					customer_name: eventSX.customer_name,
+					customer_email: eventSX.customer_email,
+					customer_phone: eventSX.customer_phone,
+					service_type: eventSX.service_type,
+					date: eventSX.date,
+					start_time: eventSX.start_time,
+					duration_hours: eventSX.duration_hours,
+				},
+				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+			);
+
+			console.log("Email de confirmación enviado con éxito");
+		} catch (err) {
+			console.error("Error enviando email de confirmación:", err);
+			return false;
+		}
+
+		setEditAppointmentPopup(false);
+	};
+
+	const handleDelete = async (eventId) => {
+		if (!eventId) return;
+		const { error } = await supabase.from("appointments").delete().eq("id", eventId);
+		if (error) {
+			toast.error(t("form.toast.error_delete"));
+			return;
+		}
+
+
+
+		eventsService.remove(eventId);
+
+		toast.success(t("form.toast.deleted"));
+		onClose();
+	};
+
 	const monthGridView = createViewMonthGrid();
 	const recurrencePlugin = createEventRecurrencePlugin();
 	const scrollController = createScrollControllerPlugin({
@@ -321,13 +387,12 @@ export default function MyCalendar({ role = "client" }) {
 	}
 
 	// Inicializar el calendario con hook directamente en el componente (no en useMemo)
-	const calendarApp = useCalendarApp({
+	const calendarConfig = {
 		calendars,
 		views: [monthGridView, createViewMonthAgenda(), createViewDay()],
 		defaultView: monthGridView.name,
 		events: [],
 		backgroundEvents: backgroundEvents,
-		minDate: format(addDays(today, 3), "yyyy-MM-dd"),
 		plugins: [
 			eventsService,
 			createCurrentTimePlugin(),
@@ -342,34 +407,41 @@ export default function MyCalendar({ role = "client" }) {
 		locale: localesMap[i18n.language],
 		callbacks: {
 			onDoubleClickAgendaDate(date) {
-				if (isSunday(date)) {
-					return;
-				}
+				// Solo aplicar restricciones si NO es admin
+				if (role !== "admin" && isSunday(date)) return;
+
 				calendarControls.setView("day");
 				calendarControls.setDate(date);
 			},
 
 			onClickDate(date) {
-				// Si es domingo o la fecha es antes de hoy + 2 días, retornar sin hacer nada
-				if (
-					isSunday(date) ||
-					date <= format(addDays(today, 2), "yyyy-MM-dd")
-				) {
-					return;
+				if (role !== "admin") {
+					// Bloquear domingos o fechas antes de hoy+2
+					if (
+						isSunday(date) ||
+						date <= format(addDays(today, 2), "yyyy-MM-dd")
+					) {
+						return;
+					}
 				}
 
 				calendarControls.setView("day");
 				calendarControls.setDate(date);
 			},
+
 			onEventClick(event) {
-				if (isSunday(event.start)) {
+				if (role !== "admin" && isSunday(event.start)) {
 					return;
 				}
-				// Cambiar a vista día
+				if (role == "admin") {
+					setSelectedEventId(event.id);
+					setEditAppointmentPopup(true);
+				}
+
 				calendarControls.setView("day");
-				// Setear la fecha al día del evento
 				calendarControls.setDate(event.start.slice(0, 10)); // 'yyyy-MM-dd'
 			},
+
 			onClickDateTime(dateTime, e) {
 				console.log("click on", dateTime);
 
@@ -397,9 +469,9 @@ export default function MyCalendar({ role = "client" }) {
 
 				if (conflict) {
 					toast.error(t("calendar.slotOccupied"));
-
 					return;
 				}
+
 				console.log("No hay conflicto, creando evento");
 
 				// Mostrar popup si no hay conflicto
@@ -411,7 +483,16 @@ export default function MyCalendar({ role = "client" }) {
 				setShowAppointmentPopup(true);
 			},
 		},
-	});
+	};
+
+	// Solo clientes tienen minDate
+	if (role !== "admin") {
+		calendarConfig.minDate = format(addDays(today, 3), "yyyy-MM-dd");
+	}
+	console.log("calendarConfig", calendarConfig);
+	console.log(role);
+
+	const calendarApp = useCalendarApp(calendarConfig);
 
 	useEffect(() => {
 		fetchEvents(today, role);
@@ -427,6 +508,15 @@ export default function MyCalendar({ role = "client" }) {
 					event={selectedSlot?.event}
 					onClose={() => setShowAppointmentPopup(false)}
 					onSubmit={handleAppointmentSubmit}
+				/>
+			)}
+			{editAppointmentPopup && (
+				<AppointmentForm
+					eventId={selectedEventId}
+					onClose={() => setEditAppointmentPopup(false)}
+					onSubmit={handleEventEdit}
+					isEditMode={true}
+					handleDelete={() => handleDelete(selectedEventId)}
 				/>
 			)}
 		</div>

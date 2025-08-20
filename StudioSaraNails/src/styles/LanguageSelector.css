@@ -36,7 +36,7 @@
 @media (max-width: 768px) {
 	/* Rota la flecha 90 grados */
 	.language-selector-icon {
-		transform: rotate(280deg);
+		transform: rotate(270deg);
 	}
 
 	/* Mover el menú para que aparezca a la derecha del botón */
