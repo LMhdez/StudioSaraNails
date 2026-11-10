@@ -149,9 +149,9 @@ export default function AppointmentForm({
 		fetchEvent();
 	}, [isEditMode, eventId, setValue]);
 
+
 	const handleFormSubmit = async (formData) => {
 		if (isEditMode) {
-			// 1. Actualizamos en Supabase
 			const { data, error } = await supabase
 				.from("appointments")
 				.update({
@@ -163,42 +163,53 @@ export default function AppointmentForm({
 				.single();
 
 			if (error) {
-				toast.error("Error updating appointment");
+				toast.error(
+					error.code === "23P01"
+						? t("calendar.slotOccupied")
+						: "Error updating appointment"
+				);
 				return;
 			}
 
-			// 2. Calcular nuevo end basado en duration_hours
 			const start = new Date(`${data.date}T${data.start_time}`);
 			const end = new Date(start);
-			end.setHours(start.getHours() + Number(formData.duration_hours));
+			end.setHours(start.getHours() + Number(data.duration_hours));
 
-			// 3. Construir objeto evento completo para Schedule-X
 			const updatedEvent = {
 				id: data.id,
 				title: `${data.customer_name} - ${data.service_type}`,
-				start: start.toISOString().slice(0, 16).replace("T", " "), // formato "YYYY-MM-DD HH:mm"
+				start: start.toISOString().slice(0, 16).replace("T", " "),
 				end: end.toISOString().slice(0, 16).replace("T", " "),
 				calendarId: "admin",
+				customer_name: data.customer_name,
+				customer_email: data.customer_email,
+				customer_phone: data.customer_phone,
+				service_type: data.service_type,
+				date: data.date,
+				start_time: data.start_time,
+				duration_hours: data.duration_hours,
+				status: data.status,
 			};
 
-			// 4. Pasar el evento a tu calendario
-			if (onSubmit({ ...updatedEvent })) {
+			const submitted = await onSubmit(updatedEvent);
+			if (submitted) {
 				toast.success(t("calendar.appointment_updated"));
 			}
 			onClose();
 			return;
 		}
 
-		if (onSubmit({ ...formData, dateTime })) {
-			toast.success(
-				<div className="mx-4">
-					<p className="font-semibold">{t("form.toast.title")}</p>
-					<p>{t("form.toast.message1")}</p>
-					<p className="mt-1">{t("form.toast.message2")}</p>
-				</div>,
-				{ duration: 10000 }
-			);
-		}
+		const submitted = await onSubmit({ ...formData, dateTime });
+		if (!submitted) return;
+
+		toast.success(
+			<div className="mx-4">
+				<p className="font-semibold">{t("form.toast.title")}</p>
+				<p>{t("form.toast.message1")}</p>
+				<p className="mt-1">{t("form.toast.message2")}</p>
+			</div>,
+			{ duration: 10000 }
+		);
 
 		reset();
 		onClose();
