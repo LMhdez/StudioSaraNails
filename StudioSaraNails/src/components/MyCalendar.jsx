@@ -303,11 +303,10 @@ export default function MyCalendar({ role = "client" }) {
 	const handleEventEdit = async (eventSX) => {
 		eventsService.update(eventSX);
 
-		// Prefer the dedicated confirmation template when configured. If it is
-		// absent, use the existing template rather than silently skipping email.
+		// Confirmation must use its own template; the request template may
+		// contain wording that would incorrectly tell the customer it is pending.
 		const confirmationTemplateId =
-			import.meta.env.VITE_EMAILJS_CONFIRMATION_TEMPLATE_ID ||
-			import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+			import.meta.env.VITE_EMAILJS_CONFIRMATION_TEMPLATE_ID;
 
 		try {
 			if (
