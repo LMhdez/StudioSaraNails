@@ -178,7 +178,6 @@ export default function MyCalendar({ role = "client" }) {
 
 
 	const handleAppointmentSubmit = async (formValues) => {
-		const startDateTime = `${selectedSlot.dateTime}:00`;
 		const slotStart = parseScheduleX(selectedSlot.dateTime);
 		const slotEnd = addHours(slotStart, 4);
 
