@@ -50,11 +50,19 @@ function App() {
 							/>
 							<Route
 								path="/services/:id"
-								element={<ServiceEdit />}
+								element={
+									<ProtectedRoute>
+										<ServiceEdit />
+									</ProtectedRoute>
+								}
 							/>
 							<Route
 								path="/services/new"
-								element={<ServiceCreate />}
+								element={
+									<ProtectedRoute>
+										<ServiceCreate />
+									</ProtectedRoute>
+								}
 							/>
 						</Routes>
 					</Router>

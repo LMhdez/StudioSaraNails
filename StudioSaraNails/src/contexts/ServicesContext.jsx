@@ -1,4 +1,3 @@
-// src/contexts/ServicesContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import supabase from "../supabaseClient";
 import { useAuth } from "./UserContext";
@@ -9,7 +8,7 @@ export const useServices = () => useContext(ServicesContext);
 
 export function ServicesProvider({ children, language }) {
 	const [servicesObject, setServicesObject] = useState([]);
-	const { user } = useAuth();
+	const { isAdmin } = useAuth();
 
 	useEffect(() => {
 		let channel;
@@ -17,8 +16,7 @@ export function ServicesProvider({ children, language }) {
 		const fetchServices = async () => {
 			let query = supabase
 				.from("service_categories")
-				.select(
-					`
+				.select(`
           id,
           name_es,
           name_en,
@@ -32,17 +30,12 @@ export function ServicesProvider({ children, language }) {
             price,
             image_url
           )
-        `
-				)
+        `)
 				.order("id", { ascending: true });
 
-			// If no user, only fetch active categories
-			if (!user) {
-				query = query.eq("active", true);
-			}
+			if (!isAdmin) query = query.eq("active", true);
 
 			const { data, error } = await query;
-
 			if (error) {
 				console.error("Error fetching services:", error);
 				return;
@@ -53,7 +46,6 @@ export function ServicesProvider({ children, language }) {
 
 		fetchServices();
 
-		// Realtime subscription
 		channel = supabase
 			.channel("services-changes")
 			.on(
@@ -71,7 +63,7 @@ export function ServicesProvider({ children, language }) {
 		return () => {
 			if (channel) supabase.removeChannel(channel);
 		};
-	}, [language, user]);
+	}, [language, isAdmin]);
 
 	return (
 		<ServicesContext.Provider value={servicesObject}>

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import TopBar from "../components/TopBar";
 import WaveDivider from "../components/WaveDivider";
 import MyCalendar from "../components/MyCalendar";
@@ -9,10 +8,8 @@ import "../styles/Schedule.css";
 
 export default function Schedule() {
 	const { i18n } = useTranslation();
-	const { user, logout } = useAuth();
-
-	// Determine role string
-	const role = user ? "admin" : "client"; // if logged in -> admin, else client
+	const { isAdmin } = useAuth();
+	const role = isAdmin ? "admin" : "client";
 
 	return (
 		<>
