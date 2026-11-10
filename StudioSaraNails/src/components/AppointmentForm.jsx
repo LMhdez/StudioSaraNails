@@ -199,14 +199,20 @@ export default function AppointmentForm({
 			return;
 		}
 
-		const submitted = await onSubmit({ ...formData, dateTime });
-		if (!submitted) return;
+		const submissionResult = await onSubmit({ ...formData, dateTime });
+		if (!submissionResult) return;
 
 		toast.success(
 			<div className="mx-4">
 				<p className="font-semibold">{t("form.toast.title")}</p>
 				<p>{t("form.toast.message1")}</p>
-				<p className="mt-1">{t("form.toast.message2")}</p>
+				<p className="mt-1">
+					{t(
+						submissionResult.notificationsFailed
+							? "form.toast.message2EmailFailed"
+							: "form.toast.message2"
+					)}
+				</p>
 			</div>,
 			{ duration: 10000 }
 		);
