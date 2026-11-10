@@ -5,16 +5,18 @@ const UserContext = createContext();
 
 export function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
+	const isAdmin = user?.app_metadata?.role === "admin";
 
 	useEffect(() => {
-		// Get current session
+		let mounted = true;
+
 		const getSession = async () => {
-			const { data } = await supabase.auth.getSession();
-			setUser(data.session?.user ?? null);
+			const { data, error } = await supabase.auth.getSession();
+			if (!error && mounted) setUser(data.session?.user ?? null);
 		};
+
 		getSession();
 
-		// Listen for changes
 		const { data: listener } = supabase.auth.onAuthStateChange(
 			(_event, session) => {
 				setUser(session?.user ?? null);
@@ -22,6 +24,7 @@ export function AuthProvider({ children }) {
 		);
 
 		return () => {
+			mounted = false;
 			listener.subscription.unsubscribe();
 		};
 	}, []);
@@ -32,7 +35,7 @@ export function AuthProvider({ children }) {
 	};
 
 	return (
-		<UserContext.Provider value={{ user, logout }}>
+		<UserContext.Provider value={{ user, isAdmin, logout }}>
 			{children}
 		</UserContext.Provider>
 	);
