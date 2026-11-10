@@ -9,7 +9,7 @@ import { useAuth } from "../contexts/UserContext";
 
 export default function TopBar() {
 	const { t, i18n } = useTranslation();
-	const { user, logout } = useAuth();
+	const { user, isAdmin, logout } = useAuth();
 	const navigate = useNavigate();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [menuItems, setMenuItems] = useState([]);
@@ -30,7 +30,7 @@ export default function TopBar() {
 	}, [i18n.language]);
 
 	const handleLogoClick = () => {
-		if (user) {
+		if (isAdmin) {
 			navigate("/admin"); // logged in → admin dashboard
 		} else {
 			navigate("/"); // not logged in → home
