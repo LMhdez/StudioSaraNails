@@ -296,7 +296,7 @@ export default function MyCalendar({ role = "client" }) {
 		}
 
 		// The booking is saved even if an email provider is temporarily unavailable.
-		return true;
+		return { notificationsFailed };
 	};
 
 
