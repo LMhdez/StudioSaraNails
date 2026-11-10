@@ -5,7 +5,6 @@
 		"contact": "Contacto",
 		"logout": "Cerrar sesión"
 	},
-
 	"home": {
 		"title": "Reserva tu cita fácilmente",
 		"buttonText": "Reservar ahora",
@@ -14,9 +13,8 @@
 		"clients": "Clientes",
 		"SeeMore": "Ver más"
 	},
-
 	"services": {
-				"editTitle": "Editar servicio",
+		"editTitle": "Editar servicio",
 		"titleEs": "Título (español)",
 		"titleEn": "Título (inglés)",
 		"descriptionEs": "Descripción (español)",
@@ -37,7 +35,6 @@
 		"createError": "Error al crear el servicio.",
 		"createTitle": "Crear Servicio"
 	},
-
 	"calendar": {
 		"title": "Calendario",
 		"buttonText": "Ver disponibilidad",
@@ -63,7 +60,6 @@
 		"newEvent": "Nueva cita creada",
 		"appointment_updated": "Cita actualizada"
 	},
-
 	"form": {
 		"nameLabel": "Nombre",
 		"namePlaceholder": "Tu nombre",
@@ -96,14 +92,14 @@
 			"message1": "Tu solicitud está pendiente de confirmación por parte de la manicurista.",
 			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp.",
 			"error_delete": "Error al eliminar la cita.",
-			"deleted": "Cita eliminada."
+			"deleted": "Cita eliminada.",
+			"bookingFailed": "No se pudo guardar tu reserva. Inténtalo de nuevo.",
+			"message2EmailFailed": "Tu solicitud se guardó, pero no pudimos enviar el correo. Contáctanos si necesitas confirmación."
 		},
 		"viewCatalog": "Ver catalogo de servicios",
 		"duration_label": "Duración",
 		"select": "Seleccione una opción"
-
 	},
-
 	"email": {
 		"subject": "Solicitud de cita recibida",
 		"label_name": "Nombre",
@@ -116,9 +112,10 @@
 		"footer_message": "Pronto te contactaremos por WhatsApp.\nSi tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.",
 		"closing": "Saludos",
 		"confirmation_subject": "Cita Confirmada",
-		"confirmation_footer_message": "Tu cita ha sido confirmada. ¡Esperamos verte pronto!"
+		"confirmation_footer_message": "Tu cita ha sido confirmada. ¡Esperamos verte pronto!",
+		"notificationFailed": "Tu reserva se guardó, pero no se pudieron enviar uno o varios correos de notificación. Contáctanos si necesitas confirmación.",
+		"confirmationFailed": "La cita se confirmó, pero no se pudo enviar el correo de confirmación."
 	},
-
 	"contact": {
 		"title": "La belleza empieza con un contacto",
 		"email": "Correo electrónico",
@@ -132,7 +129,6 @@
 			"message": "Gracias por tu mensaje. Nos pondremos en contacto contigo pronto."
 		}
 	},
-
 	"login": {
 		"emailLabel": "Correo",
 		"emailPlaceholder": "ejemplo@email.com",

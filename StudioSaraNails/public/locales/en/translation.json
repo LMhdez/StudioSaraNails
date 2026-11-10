@@ -5,7 +5,6 @@
 		"contact": "Contact",
 		"logout": "Logout"
 	},
-
 	"home": {
 		"title": "Book your appointment effortlessly",
 		"buttonText": "Book Now",
@@ -14,7 +13,6 @@
 		"clients": "Clients",
 		"see-more": "See More"
 	},
-
 	"services": {
 		"soft-gel": "Soft Gel",
 		"acrylic-system": "Acrylic System",
@@ -41,7 +39,6 @@
 		"createError": "Failed to create service.",
 		"createTitle": "Create Service"
 	},
-
 	"calendar": {
 		"title": "Calendar",
 		"buttonText": "Check Availability",
@@ -99,7 +96,9 @@
 			"message1": "Your request is pending confirmation from the manicurist.",
 			"message2": "You will receive an email and we will contact you soon via WhatsApp.",
 			"error_delete": "Error deleting appointment.",
-			"deleted": "Appointment deleted."
+			"deleted": "Appointment deleted.",
+			"bookingFailed": "Could not save your booking. Please try again.",
+			"message2EmailFailed": "Your request was saved, but we could not send the email. Please contact us if you need confirmation."
 		},
 		"viewCatalog": "View services catalog",
 		"duration_label": "Duration",
@@ -117,7 +116,9 @@
 		"footer_message": "You will be contacted via WhatsApp soon.\nIf you have any questions or need assistance, feel free to contact us.",
 		"closing": "Best regards",
 		"confirmation_subject": "Appointment Confirmed",
-		"confirmation_footer_message": "Your appointment has been confirmed. We look forward to seeing you!"
+		"confirmation_footer_message": "Your appointment has been confirmed. We look forward to seeing you!",
+		"notificationFailed": "Your booking was saved, but one or more notification emails could not be sent. Please contact us if you need confirmation.",
+		"confirmationFailed": "The appointment was confirmed, but the confirmation email could not be sent."
 	},
 	"contact": {
 		"title": "Beauty begins with a connection",
@@ -171,7 +172,6 @@
 		"success": "Your password has been updated.",
 		"error": "Could not update password. Please try again."
 	},
-
 	"admin": {
 		"dashboard": "Dashboard",
 		"stats": {
