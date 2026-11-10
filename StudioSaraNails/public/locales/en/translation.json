@@ -97,7 +97,8 @@
 			"message2": "You will receive an email and we will contact you soon via WhatsApp.",
 			"error_delete": "Error deleting appointment.",
 			"deleted": "Appointment deleted.",
-			"bookingFailed": "Could not save your booking. Please try again."
+			"bookingFailed": "Could not save your booking. Please try again.",
+			"message2EmailFailed": "Your request was saved, but we could not send the email. Please contact us if you need confirmation."
 		},
 		"viewCatalog": "View services catalog",
 		"duration_label": "Duration",
