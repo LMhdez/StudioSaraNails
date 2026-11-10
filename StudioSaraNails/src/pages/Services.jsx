@@ -16,7 +16,7 @@ export default function ServicesPage() {
 	const navigate = useNavigate();
 	const { i18n, t } = useTranslation();
 	const servicesObject = useServices();
-	const { user } = useAuth();
+	const { isAdmin } = useAuth();
 	const [loading, setLoading] = useState(false);
 
 	const [showAddModal, setShowAddModal] = useState(false);
@@ -137,7 +137,7 @@ export default function ServicesPage() {
 		<>
 			<TopBar />
 			<div className="services-page">
-				{user && (
+				{isAdmin && (
 					<div className="admin-controls">
 						<button
 							onClick={() => setShowAddModal(true)}
@@ -165,7 +165,7 @@ export default function ServicesPage() {
 					>
 						<h2>
 							{i18n.language === "es" ? cat.name_es : cat.name_en}
-							{user && (
+							{isAdmin && (
 								<div className="category-controls">
 									<label className="switch">
 										<input
@@ -221,7 +221,7 @@ export default function ServicesPage() {
 									tagText={`$${srv.price.toFixed(2)}`}
 									onClick={
 										() =>
-											user
+											isAdmin
 												? navigate(
 														`/services/${srv.id}`
 												  ) // Admin: service form
