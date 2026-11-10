@@ -176,21 +176,22 @@ export default function MyCalendar({ role = "client" }) {
 		return () => observer.disconnect();
 	}, []);
 
-	const handleAppointmentSubmit = async (formValues) => {
-		console.log("Datos recibidos del formulario:", formValues);
-		const startDateTime = `${selectedSlot.dateTime}:00`;
-		const endDateTime = format(
-			addHours(new Date(startDateTime), 4),
-			"yyyy-MM-dd HH:mm:ss"
-		);
 
-		// Verificar solapamiento
-		const isConflict = eventsService.getAll().some((ev) => {
-			return ev.start < endDateTime && ev.end > startDateTime;
+	const handleAppointmentSubmit = async (formValues) => {
+		const startDateTime = `${selectedSlot.dateTime}:00`;
+		const slotStart = parseScheduleX(selectedSlot.dateTime);
+		const slotEnd = addHours(slotStart, 4);
+
+		// Client-side check improves the experience; the database constraint
+		// remains the authoritative protection against concurrent bookings.
+		const isConflict = eventsService.getAll().some((event) => {
+			const eventStart = parseScheduleX(event.start);
+			const eventEnd = parseScheduleX(event.end);
+			return slotStart < eventEnd && slotEnd > eventStart;
 		});
 
 		if (isConflict) {
-			alert("Ya existe un evento en este horario.");
+			toast.error(t("calendar.slotOccupied"));
 			return false;
 		}
 
@@ -200,12 +201,11 @@ export default function MyCalendar({ role = "client" }) {
 			customer_phone: formValues.phone,
 			service_type: formValues.service,
 			date: selectedSlot.dateTime.slice(0, 10),
-			start_time: selectedSlot.dateTime.slice(11, 19),
+			start_time: `${selectedSlot.dateTime.slice(11, 16)}:00`,
 			duration_hours: 4,
 			status: "pending",
 		};
 
-		// Guardar en Supabase
 		const { data, error } = await supabase
 			.from("appointments")
 			.insert(newAppointment)
@@ -213,119 +213,118 @@ export default function MyCalendar({ role = "client" }) {
 			.single();
 
 		if (error) {
-			console.error("Error al crear cita:", error);
+			if (error.code === "23P01") {
+				toast.error(t("calendar.slotOccupied"));
+			} else {
+				console.error("Error creating appointment:", error.message);
+				toast.error(t("form.toast.bookingFailed"));
+			}
 			return false;
 		}
 
-		// Crear evento en calendario
-
-		eventsService.add({
+		const calendarEvent = {
 			id: data.id,
 			title: `${newAppointment.customer_name} - ${newAppointment.service_type}`,
-			start: `${newAppointment.date} ${newAppointment.start_time}`,
-			end: format(
-				addHours(
-					new Date(
-						`${newAppointment.date}T${newAppointment.start_time}`
-					),
-					newAppointment.duration_hours
-				),
-				"yyyy-MM-dd HH:mm"
-			),
-		});
-		console.log(eventsService.get(data.id));
+			start: `${newAppointment.date} ${newAppointment.start_time.slice(0, 5)}`,
+			end: format(addHours(
+				new Date(`${newAppointment.date}T${newAppointment.start_time}`),
+				newAppointment.duration_hours
+			), "yyyy-MM-dd HH:mm"),
+		};
+		eventsService.add(calendarEvent);
 
-		console.log(
-			format(
-				addHours(
-					new Date(
-						`${newAppointment.date}T${newAppointment.start_time}`
-					),
-					newAppointment.duration_hours
-				),
-				"yyyy-MM-dd HH:mm"
-			)
-		);
+		const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+		const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+		const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-		// Enviar email con EmailJS
-		try {
-			await emailjs.send(
-				import.meta.env.VITE_EMAILJS_SERVICE_ID,
-				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-				{
-					to_email: `${newAppointment.customer_email}`,
-					subject: t("email.subject"),
-					label_name: t("email.label_name"),
-					label_email: t("email.label_email"),
-					label_phone: t("email.label_phone"),
-					label_service: t("email.label_service"),
-					label_date: t("email.label_date"),
-					label_start_time: t("email.label_start_time"),
-					label_duration: t("email.label_duration"),
-					footer_message: t("email.footer_message"),
-					closing: t("email.closing"),
+		const commonParams = {
+			customer_name: newAppointment.customer_name,
+			customer_email: newAppointment.customer_email,
+			customer_phone: newAppointment.customer_phone,
+			service_type: newAppointment.service_type,
+			date: newAppointment.date,
+			start_time: newAppointment.start_time,
+			duration_hours: newAppointment.duration_hours,
+			label_name: t("email.label_name"),
+			label_email: t("email.label_email"),
+			label_phone: t("email.label_phone"),
+			label_service: t("email.label_service"),
+			label_date: t("email.label_date"),
+			label_start_time: t("email.label_start_time"),
+			label_duration: t("email.label_duration"),
+			closing: t("email.closing"),
+		};
 
-					customer_name: newAppointment.customer_name,
-					customer_email: newAppointment.customer_email,
-					customer_phone: newAppointment.customer_phone,
-					service_type: newAppointment.service_type,
-					date: newAppointment.date,
-					start_time: newAppointment.start_time,
-					duration_hours: newAppointment.duration_hours,
-				},
-				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+		const emailParams = [
+			{
+				...commonParams,
+				to_email: newAppointment.customer_email,
+				subject: t("email.subject"),
+				footer_message: t("email.footer_message"),
+			},
+			{
+				...commonParams,
+				to_email: "soe18.sara@gmail.com",
+				subject: "Nueva cita solicitada",
+				footer_message: "Revisar detalles y confirmar la cita.",
+				label_name: "Nombre",
+				label_email: "Correo",
+				label_phone: "Teléfono",
+				label_service: "Servicio",
+				label_date: "Fecha",
+				label_start_time: "Hora inicio",
+				label_duration: "Duración",
+			},
+		];
+
+		let notificationsFailed = false;
+		if (!serviceId || !templateId || !publicKey) {
+			notificationsFailed = true;
+		} else {
+			const results = await Promise.allSettled(
+				emailParams.map((params) =>
+					emailjs.send(serviceId, templateId, params, publicKey)
+				)
 			);
-
-			console.log("Email enviado con éxito");
-		} catch (err) {
-			console.error("Error enviando email:", err);
-			return false;
-		}
-		try {
-			await emailjs.send(
-				import.meta.env.VITE_EMAILJS_SERVICE_ID,
-				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-				{
-					to_email: "soe18.sara@gmail.com",
-					customer_name: newAppointment.customer_name,
-					customer_email: newAppointment.customer_email,
-					customer_phone: newAppointment.customer_phone,
-					service_type: newAppointment.service_type,
-					date: newAppointment.date,
-					start_time: newAppointment.start_time,
-					duration_hours: newAppointment.duration_hours,
-
-					subject: "Nueva cita solicitada",
-					footer_message: "Revisar detalles y confirmar la cita.",
-					closing: "Saludos",
-					label_name: "Nombre",
-					label_email: "Correo",
-					label_phone: "Teléfono",
-					label_service: "Servicio",
-					label_date: "Fecha",
-					label_start_time: "Hora inicio",
-					label_duration: "Duración",
-				},
-				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+			notificationsFailed = results.some(
+				(result) => result.status === "rejected"
 			);
-			console.log("Email enviado al admin con éxito");
-		} catch (err) {
-			console.error("Error enviando email al admin:", err);
 		}
 
+		if (notificationsFailed) {
+			console.error("One or more appointment notification emails failed.");
+			toast.error(t("email.notificationFailed"));
+		}
+
+		// The booking is saved even if an email provider is temporarily unavailable.
 		return true;
 	};
 
+
 	const handleEventEdit = async (eventSX) => {
 		eventsService.update(eventSX);
-		// Enviar email de confirmación al cliente
+
+		// Prefer the dedicated confirmation template when configured. If it is
+		// absent, use the existing template rather than silently skipping email.
+		const confirmationTemplateId =
+			import.meta.env.VITE_EMAILJS_CONFIRMATION_TEMPLATE_ID ||
+			import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+
 		try {
+			if (
+				!import.meta.env.VITE_EMAILJS_SERVICE_ID ||
+				!confirmationTemplateId ||
+				!import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+			) {
+				throw new Error("EmailJS configuration is incomplete");
+			}
+
 			await emailjs.send(
 				import.meta.env.VITE_EMAILJS_SERVICE_ID,
-				import.meta.env.VITE_EMAILJS_CONFIRMATION_TEMPLATE_ID, // nuevo template para confirmación
+				confirmationTemplateId,
 				{
 					to_email: eventSX.customer_email,
-					subject: t("email.confirmation_subject"), // título específico de confirmación
+					subject: t("email.confirmation_subject"),
 					label_name: t("email.label_name"),
 					label_email: t("email.label_email"),
 					label_phone: t("email.label_phone"),
@@ -333,9 +332,8 @@ export default function MyCalendar({ role = "client" }) {
 					label_date: t("email.label_date"),
 					label_start_time: t("email.label_start_time"),
 					label_duration: t("email.label_duration"),
-					footer_message: t("email.confirmation_footer_message"), // mensaje específico para confirmación
+					footer_message: t("email.confirmation_footer_message"),
 					closing: t("email.closing"),
-
 					customer_name: eventSX.customer_name,
 					customer_email: eventSX.customer_email,
 					customer_phone: eventSX.customer_phone,
@@ -346,14 +344,16 @@ export default function MyCalendar({ role = "client" }) {
 				},
 				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 			);
-
-			console.log("Email de confirmación enviado con éxito");
-		} catch (err) {
-			console.error("Error enviando email de confirmación:", err);
-			return false;
+		} catch (error) {
+			console.error(
+				"Appointment was confirmed, but its email notification failed:",
+				error.message
+			);
+			toast.error(t("email.confirmationFailed"));
 		}
 
 		setEditAppointmentPopup(false);
+		return true;
 	};
 
 	const handleDelete = async (eventId) => {
@@ -447,7 +447,6 @@ export default function MyCalendar({ role = "client" }) {
 
 				// Ignorar clicks en eventos de fondo
 				if (e.target.className === "sx__time-grid-background-event") {
-					console.log("click on background event", dateTime);
 					return;
 				}
 
@@ -457,12 +456,10 @@ export default function MyCalendar({ role = "client" }) {
 
 				const newEventStart = date;
 				const newEventEnd = addHours(date, 4);
-				console.log("nuevo evento", newEventStart, newEventEnd);
 
 				const conflict = eventsService.getAll().some((ev) => {
 					const evStart = parseScheduleX(ev.start);
 					const evEnd = parseScheduleX(ev.end);
-					console.log(ev);
 
 					return newEventStart < evEnd && newEventEnd > evStart;
 				});
@@ -472,7 +469,6 @@ export default function MyCalendar({ role = "client" }) {
 					return;
 				}
 
-				console.log("No hay conflicto, creando evento");
 
 				// Mostrar popup si no hay conflicto
 				const roundedDateTimeStr = format(
@@ -489,8 +485,6 @@ export default function MyCalendar({ role = "client" }) {
 	if (role !== "admin") {
 		calendarConfig.minDate = format(addDays(today, 3), "yyyy-MM-dd");
 	}
-	console.log("calendarConfig", calendarConfig);
-	console.log(role);
 
 	const calendarApp = useCalendarApp(calendarConfig);
 
