@@ -93,7 +93,8 @@
 			"message2": "Recibirás un correo electrónico y nos pondremos en contacto contigo pronto por WhatsApp.",
 			"error_delete": "Error al eliminar la cita.",
 			"deleted": "Cita eliminada.",
-			"bookingFailed": "No se pudo guardar tu reserva. Inténtalo de nuevo."
+			"bookingFailed": "No se pudo guardar tu reserva. Inténtalo de nuevo.",
+			"message2EmailFailed": "Tu solicitud se guardó, pero no pudimos enviar el correo. Contáctanos si necesitas confirmación."
 		},
 		"viewCatalog": "Ver catalogo de servicios",
 		"duration_label": "Duración",
