@@ -1,12 +1,52 @@
-# React + Vite
+# Studio Sara Nails
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web para apresentação e gestão de serviços de um estúdio de unhas, com agenda e área administrativa.
 
-Currently, two official plugins are available:
+## Funcionalidades identificadas na estrutura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Páginas públicas de início, contacto e serviços.
+- Agenda e marcação de serviços.
+- Autenticação, recuperação e reposição de palavra-passe.
+- Área de administração e operações sobre serviços.
+- Interface multilingue.
+- Integração com Supabase, EmailJS e calendário Schedule-X.
 
-## Expanding the ESLint configuration
+## Tecnologia
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- Vite 7
+- React Router 7
+- Supabase JavaScript client
+- React Hook Form e Yup
+- TanStack Query
+- Schedule-X
+- i18next / react-i18next
+- Tailwind CSS 4
+
+## Requisitos
+
+- Node.js compatível com a versão de Vite declarada no `package.json`.
+- npm.
+
+## Instalação e execução
+
+A partir desta pasta:
+
+```bash
+npm install
+npm run dev
+```
+
+## Validação e build
+
+```bash
+npm run lint
+npm run build
+npm run preview
+```
+
+## Configuração e segurança
+
+Revê `src/supabaseClient.js` e as integrações de EmailJS para identificar os nomes das configurações necessárias. Não coloques service-role keys, tokens privados, palavras-passe ou segredos no frontend. As chaves anon/public do Supabase só podem ser usadas com Row Level Security e políticas adequadas; a segurança não pode depender de esconder valores no JavaScript.
+
+Não publiques ficheiros `.env` nem credenciais de produção. Usa variáveis de ambiente locais e configura os valores de build no fornecedor de alojamento.
